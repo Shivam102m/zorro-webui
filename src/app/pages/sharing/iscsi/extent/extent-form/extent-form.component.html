@@ -1,0 +1,152 @@
+<ix-modal-header
+  [requiredRoles]="requiredRoles"
+  [title]="title"
+  [loading]="isLoading"
+></ix-modal-header>
+
+<mat-card>
+  <mat-card-content>
+    <form class="ix-form-container" [formGroup]="form" (submit)="onSubmit()">
+      <div class="columns">
+        <div class="column">
+          <ix-fieldset [title]="helptext.fieldset_extent_basic | translate">
+            <ix-input
+              formControlName="name"
+              [label]="helptext.extent_placeholder_name | translate"
+              [tooltip]="helptext.extent_tooltip_name | translate"
+              [placeholder]="helptext.extent_placeholder_name | translate"
+              [required]="true"
+            ></ix-input>
+
+            <ix-input
+              formControlName="comment"
+              [label]="helptext.extent_placeholder_comment | translate"
+              [tooltip]="helptext.extent_tooltip_comment | translate"
+              [placeholder]="helptext.extent_placeholder_comment | translate"
+            ></ix-input>
+
+            <ix-checkbox
+              formControlName="enabled"
+              [label]="helptext.extent_placeholder_enabled | translate"
+              [tooltip]="helptext.extent_tooltip_enabled | translate"
+            ></ix-checkbox>
+          </ix-fieldset>
+          <ix-fieldset [title]="helptext.fieldset_extent_options | translate">
+            <ix-checkbox
+              formControlName="insecure_tpc"
+              [label]="helptext.extent_placeholder_insecure_tpc | translate"
+              [tooltip]="helptext.extent_tooltip_insecure_tpc | translate"
+            ></ix-checkbox>
+
+            <ix-checkbox
+              formControlName="xen"
+              [label]="helptext.extent_placeholder_xen | translate"
+              [tooltip]="helptext.extent_tooltip_xen | translate"
+            ></ix-checkbox>
+
+            <ix-select
+              formControlName="rpm"
+              [label]="helptext.extent_placeholder_rpm | translate"
+              [options]="rpms$"
+              [tooltip]="helptext.extent_tooltip_rpm | translate"
+              [required]="true"
+            ></ix-select>
+
+            <ix-checkbox
+              formControlName="ro"
+              [label]="helptext.extent_placeholder_ro | translate"
+              [tooltip]="helptext.extent_tooltip_ro | translate"
+            ></ix-checkbox>
+          </ix-fieldset>
+        </div>
+
+        <div class="column">
+          <ix-fieldset [title]="helptext.fieldset_extent_type | translate">
+            <ix-select
+              formControlName="type"
+              [label]="helptext.extent_placeholder_type | translate"
+              [options]="types$"
+              [tooltip]="helptext.extent_tooltip_type | translate"
+              [required]="true"
+            ></ix-select>
+
+            @if (isDevice) {
+              <ix-select
+                formControlName="disk"
+                [label]="helptext.extent_placeholder_disk | translate"
+                [options]="disks$"
+                [tooltip]="helptext.extent_tooltip_disk | translate"
+                [required]="true"
+              ></ix-select>
+            } @else {
+              <ix-explorer
+                formControlName="path"
+                [nodeProvider]="treeNodeProvider"
+                [label]="helptext.extent_placeholder_path | translate"
+                [tooltip]="helptext.extent_tooltip_path | translate"
+                [required]="true"
+                [canCreateDataset]="isNew"
+              ></ix-explorer>
+
+              <ix-input
+                formControlName="filesize"
+                [label]="helptext.extent_placeholder_filesize | translate"
+                [tooltip]="helptext.extent_tooltip_filesize | translate"
+                [placeholder]="helptext.extent_placeholder_filesize | translate"
+                [required]="true"
+                [parse]="formatter.memorySizeParsing"
+                [format]="formatter.memorySizeFormatting"
+              ></ix-input>
+            }
+
+            @if (!isNew) {
+              <ix-input
+                formControlName="serial"
+                [label]="helptext.extent_placeholder_serial | translate"
+                [tooltip]="helptext.extent_tooltip_serial | translate"
+                [placeholder]="helptext.extent_placeholder_serial | translate"
+              ></ix-input>
+            }
+
+            <ix-select
+              formControlName="blocksize"
+              [label]="helptext.extent_placeholder_blocksize | translate"
+              [options]="blocksizes$"
+              [tooltip]="helptext.extent_tooltip_blocksize | translate"
+              [required]="true"
+            ></ix-select>
+
+            <ix-checkbox
+              formControlName="pblocksize"
+              [label]="helptext.extent_placeholder_pblocksize | translate"
+              [tooltip]="helptext.extent_tooltip_pblocksize | translate"
+            ></ix-checkbox>
+
+            @if (isAvailableThreshold) {
+              <ix-input
+                formControlName="avail_threshold"
+                type="number"
+                [label]="helptext.extent_placeholder_avail_threshold | translate"
+                [tooltip]="helptext.extent_tooltip_avail_threshold | translate"
+                [placeholder]="helptext.extent_placeholder_avail_threshold | translate"
+              ></ix-input>
+            }
+          </ix-fieldset>
+        </div>
+      </div>
+
+      <ix-form-actions>
+        <button
+          *ixRequiresRoles="requiredRoles"
+          mat-button
+          type="submit"
+          color="primary"
+          ixTest="save"
+          [disabled]="form.invalid || isLoading"
+        >
+          {{ 'Save' | translate }}
+        </button>
+      </ix-form-actions>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,24 @@
+@import 'mixins/cards';
+
+:host ::ng-deep {
+  ix-missing-access-wrapper {
+    margin-left: auto;
+  }
+}
+
+.card {
+  @include details-card();
+}
+
+.icon {
+  height: 24px;
+  margin-right: 8px;
+  width: 24px;
+}
+
+.apps,
+.vms {
+  margin-bottom: 12px;
+  margin-top: 12px;
+  white-space: normal !important;
+}

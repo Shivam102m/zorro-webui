@@ -1,0 +1,51 @@
+@import 'scss-imports/variables';
+@import 'mixins/layout';
+@import 'mixins/cards';
+
+:host {
+  &::ng-deep {
+    @include tree-node-with-details-container;
+
+    .cards {
+      @include details-cards();
+
+      @media (max-width: $breakpoint-tablet) {
+        overflow: hidden;
+      }
+
+      .card {
+        @include details-card();
+        margin: 0;
+      }
+    }
+  }
+}
+
+.details-container {
+  flex-direction: column;
+  overflow: auto;
+}
+
+.header-container {
+  align-items: center;
+  background: var(--bg1);
+  color: var(--fg2);
+  display: flex;
+  gap: 8px;
+  margin-bottom: 0;
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+
+  @media (max-width: calc($breakpoint-hidden - 1px)) {
+    border-bottom: solid 1px var(--lines);
+    margin: 0 16px 16px 0;
+    padding-top: 0;
+    position: static;
+  }
+
+  .header {
+    width: 100%;
+  }
+}

@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>{{ data.title | translate }}</h1>
+<div mat-dialog-content>
+  <div class="message-content">
+    <span [innerHTML]="data.message | translate"></span>
+  </div>
+</div>
+<input #el class="invisible" type="text" ixTest="url" [value]="data.url" />
+
+<div mat-dialog-actions>
+  <button
+    mat-button
+    color="accent"
+    ixTest="cancel"
+    (click)="dialogRef.close(false)"
+  >
+    {{ 'Cancel' | translate }}
+  </button>
+  <button
+    mat-button
+    color="accent"
+    ixTest="copy-url"
+    (click)="copyToClipboard()"
+  >
+    {{ 'Copy URL' | translate }}
+  </button>
+  <button
+    mat-button
+    color="primary"
+    ixTest="continue"
+    (click)="dialogRef.close(true)"
+  >
+    {{ 'Continue' | translate }}
+  </button>
+</div>

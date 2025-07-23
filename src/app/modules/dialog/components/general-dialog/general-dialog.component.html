@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>
+  @if (conf.icon) {
+    <ix-icon class="general-dialog-icon" [name]="conf.icon"></ix-icon>
+  }
+  @if (conf.title) {
+    <span>{{ conf.title | translate }}</span>
+  }
+</h1>
+<div mat-dialog-content class="general-dialog-content-container">
+  <div class="generial-dialog-content">
+    @if (conf.is_html) {
+      <span [innerHTML]="conf.message | translate"></span>
+    } @else {
+      <span>{{ conf.message | translate }}</span>
+    }
+  </div>
+</div>
+<div mat-dialog-actions>
+  @if (!conf.hideCancel) {
+    <button
+      mat-button
+      ixTest="cancel"
+      (click)="dialogRef.close(false)"
+    >
+      {{ (conf.cancelBtnMsg | translate) || ('Cancel' | translate) }}
+    </button>
+  }
+  <button
+    mat-button
+    color="primary"
+    ixTest="close"
+    (click)="dialogRef.close(true)"
+  >
+    {{ (conf.confirmBtnMsg | translate) || ('Close' | translate) }}
+  </button>
+</div>

@@ -1,0 +1,106 @@
+<mat-card class="card">
+  <mat-card-header>
+    <h3 mat-card-title>
+      {{ isFilesystem() ? ('Dataset Details' | translate) : ('Zvol Details' | translate) }}
+    </h3>
+
+    @if (isFilesystem()) {
+      <button
+        *ixRequiresRoles="[Role.DatasetWrite]"
+        mat-button
+        ixTest="edit-dataset"
+        (click)="editDataset()"
+      >
+        {{ 'Edit' | translate }}
+      </button>
+    } @else {
+      <button
+        *ixRequiresRoles="[Role.DatasetWrite]"
+        mat-button
+        ixTest="edit-zvol"
+        (click)="editZvol()"
+      >
+        {{ 'Edit Zvol' | translate }}
+      </button>
+    }
+  </mat-card-header>
+  <mat-card-content>
+    <div class="details-item">
+      <div class="label">{{ 'Type' | translate }}:</div>
+      <div class="value">{{ dataset().type | orNotAvailable }}</div>
+    </div>
+    <div class="details-item">
+      <div class="label">{{ 'Sync' | translate }}:</div>
+      <div class="value">{{ dataset().sync?.value | orNotAvailable }}</div>
+    </div>
+    <div class="details-item">
+      <div class="label">{{ 'Compression' | translate }}:</div>
+      <div class="value">
+        @if (datasetCompression()) {
+          {{ datasetCompression() }}
+        } @else {
+          {{ 'N/A' | translate }}
+        }
+      </div>
+    </div>
+    @if (!isZvol()) {
+      <div class="details-item">
+        <div class="label">{{ 'Enable Atime' | translate }}:</div>
+        <div class="value">
+          {{ (dataset().atime ? OnOff.On : OnOff.Off) | translate }}
+        </div>
+      </div>
+    }
+    <div class="details-item">
+      <div class="label">{{ 'ZFS Deduplication' | translate }}:</div>
+      <div class="value">{{ dataset().deduplication?.value | orNotAvailable }}</div>
+    </div>
+    <div class="details-item">
+      <div class="label">{{ 'Case Sensitivity' | translate }}:</div>
+      <div class="value">
+        {{ (dataset().casesensitive ? OnOff.On : OnOff.Off) | translate }}
+      </div>
+    </div>
+    <div class="details-item">
+      <div class="label">{{ 'Path' | translate }}:</div>
+      <div
+        matTooltipPosition="above"
+        class="value dataset-path"
+        [matTooltip]="dataset().name"
+        [matTooltipClass]="['dataset-path-tooltip']"
+      >
+        {{ dataset().name }}
+      </div>
+      <ix-copy-button [text]="dataset().name"></ix-copy-button>
+    </div>
+    @if (hasComments()) {
+      <div class="details-item">
+        <div class="label">{{ 'Comments' | translate }}:</div>
+        <div class="value dataset-comments">{{ dataset().comments.value }}</div>
+      </div>
+    }
+  </mat-card-content>
+  @if (dataset().id !== dataset().pool) {
+    <mat-card-actions>
+      @if (canBePromoted()) {
+        <button
+          *ixRequiresRoles="[Role.DatasetWrite]"
+          mat-button
+          ixTest="promote-dataset"
+          (click)="promoteDataset()"
+        >
+          {{ 'Promote' | translate }}
+        </button>
+      }
+      <button
+        *ixRequiresRoles="[Role.DatasetDelete]"
+        mat-button
+        ixTest="delete-dataset"
+        (click)="deleteDataset()"
+      >
+        {{ 'Delete' | translate }}
+      </button>
+    </mat-card-actions>
+  }
+</mat-card>
+

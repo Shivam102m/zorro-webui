@@ -1,0 +1,77 @@
+<mat-card class="card" [ixUiSearch]="searchableElements.elements.usage">
+  <mat-card-header>
+    <h3 mat-card-title>
+      {{ 'Usage' | translate }}
+      <ix-pool-card-icon [type]="iconType()" [tooltip]="iconTooltip()"></ix-pool-card-icon>
+    </h3>
+
+    <a
+      mat-button
+      [ixTest]="[poolState().name, 'manage-datasets']"
+      [routerLink]="['/', 'datasets', poolState().name]"
+    >
+      {{ 'Manage Datasets' | translate }}
+    </a>
+  </mat-card-header>
+
+  <mat-card-content class="card-content">
+    <div class="left">
+      <div>
+        <ix-gauge-chart
+          class="gauge"
+          [colorFill]="usedPercentage() === 0 ? chartBlankColor : isLowCapacity() ? chartLowCapacityColor : chartFillColor"
+          [colorBlank]="chartBlankColor"
+          [width]="150"
+          [height]="150"
+          [label]="(usedPercentage() / 100 | percent: '1.0-1') || ''"
+          [value]="usedPercentage() > 100 ? 100 : usedPercentage()"
+          [style]="isLowCapacity() ? 'color: var(--red);' : ''"
+        ></ix-gauge-chart>
+        @if (isLowCapacity()) {
+          <div class="warning-container">
+            <span>
+              <b>{{ 'Warning' | translate }}:</b> {{ 'Low Capacity' | translate }}
+            </span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="captions">
+        <div class="capacity-caption">
+          <b>{{ 'Usable Capacity' | translate }}:</b>
+          <span class="value-caption">
+            {{ capacity() | ixFileSize }}
+          </span>
+        </div>
+        <ul class="list-caption">
+          <li class="item-caption">
+            <span class="used-caption">
+              <b>{{ 'Used' | translate }}:</b>
+              <span class="value-caption">
+                {{ (rootDataset()?.used.parsed | ixFileSize) || ('Unknown' | translate) }}
+              </span>
+            </span>
+          </li>
+          <li class="item-caption">
+            <span class="available-caption">
+              <b>{{ 'Available' | translate }}:</b>
+              <span class="value-caption">
+                {{ (rootDataset()?.available.parsed | ixFileSize) || ('Unknown' | translate) }}
+              </span>
+            </span>
+          </li>
+        </ul>
+      </div>
+      <a
+        class="link"
+        [ixTest]="[poolState().name, 'view-disk-space-reports']"
+        [routerLink]="['/reportsdashboard', 'disk']"
+        [queryParams]="{ disks: disks() }"
+      >
+        {{ 'View Disk Space Reports' | translate }}
+      </a>
+    </div>
+  </mat-card-content>
+</mat-card>

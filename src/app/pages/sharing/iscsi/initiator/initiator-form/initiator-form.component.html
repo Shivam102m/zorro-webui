@@ -1,0 +1,90 @@
+<mat-card class="form-card" [ixUiSearch]="searchableElements.elements.addInitiator">
+  @if (isFormLoading) {
+    <mat-progress-bar
+      mode="indeterminate"
+    ></mat-progress-bar>
+  }
+  <form class="ix-form-container" [formGroup]="form" (submit)="onSubmit()">
+    <mat-card-content>
+      <div class="card-content">
+        <div class="header-container">
+          <ix-checkbox
+            formControlName="all"
+            [label]="helptext.all_placeholder_initiators | translate"
+          ></ix-checkbox>
+          @if (!isAllowAll) {
+            <div class="add-container">
+              <ix-input
+                formControlName="new_initiator"
+                [label]="helptext.initiator_form_placeholder_initiators | translate"
+                [tooltip]="helptext.initiator_form_tooltip_initiators | translate"
+                (keydown.enter)="$event.preventDefault(); onAddInitiator()"
+              ></ix-input>
+              <button
+                mat-flat-button
+                ixTest="add-initiator"
+                type="button"
+                [disabled]="isFormLoading"
+                (click)="onAddInitiator()"
+              >
+                <ix-icon name="add"></ix-icon>
+              </button>
+            </div>
+          }
+        </div>
+
+        @if (!isAllowAll) {
+          <ix-dual-listbox
+            class="padding-16"
+            display="name"
+            key="id"
+            height="55vh"
+            [sourceName]="'Connected Initiators' | translate"
+            [targetName]="'Allowed Initiators' | translate"
+            [source]="allInitiators()"
+            [destination]="selectedInitiators()"
+          ></ix-dual-listbox>
+
+          <button
+            mat-flat-button
+            type="button"
+            class="refresh-button"
+            ixTest="refresh"
+            [disabled]="isFormLoading"
+            (click)="getConnectedInitiators()"
+          >
+            <ix-icon name="refresh"></ix-icon>
+            {{ 'Refresh' | translate }}
+          </button>
+        }
+
+        <ix-input
+          formControlName="comment"
+          [label]="helptext.initiator_form_placeholder_comment | translate"
+          [tooltip]="helptext.initiator_form_tooltip_comment | translate"
+        ></ix-input>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button
+        *ixRequiresRoles="requiredRoles"
+        mat-button
+        color="primary"
+        ixTest="save"
+        type="submit"
+        [disabled]="isFormLoading || form.invalid"
+      >
+        {{ 'Save' | translate }}
+      </button>
+      <button
+        mat-button
+        ixTest="cancel"
+        type="button"
+        (click)="onCancel()"
+      >
+        {{ 'Cancel' | translate }}
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>

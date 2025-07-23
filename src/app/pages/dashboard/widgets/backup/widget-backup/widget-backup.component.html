@@ -1,0 +1,83 @@
+<mat-card class="card">
+  <mat-card-content class="card-content">
+    <div class="header">
+      <div class="title">
+        <h3>{{ name | translate }}</h3>
+
+        @if (!!allCount) {
+          <div class="status-container">
+            @if (!!failedCount) {
+              <ix-icon
+                name="mdi-alert"
+                class="icon warning"
+              ></ix-icon>
+              <span>
+                {{ '{failedCount} of {allCount, plural, =1 {# task} other {# tasks}} failed' | translate : { failedCount, allCount } }}
+              </span>
+            } @else {
+              <ix-icon
+                name="mdi-check-circle"
+                class="icon healthy"
+              ></ix-icon>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="controls">
+        <a
+          mat-icon-button
+          ixTest="go-to-backups"
+          matTooltipPosition="above"
+          [attr.aria-label]="'Data Protection' | translate"
+          [matTooltip]="'Data Protection' | translate"
+          [routerLink]="['/data-protection']"
+        >
+          <ix-icon name="open_in_new"></ix-icon>
+        </a>
+      </div>
+    </div>
+
+    <div [class]="['container', size()]">
+      @if (backupsTiles.length) {
+        <div class="container-content">
+          <mat-grid-list gutterSize="5px" [cols]="1" [rowHeight]="hasSendTasks ? 105 : 90">
+            @for (tile of backupsTiles; track trackByTile($index, tile)) {
+              <mat-grid-tile>
+                <ix-backup-task-tile
+                  [tile]="tile"
+                  [hasSendTasks]="hasSendTasks"
+                  [backupActions]="backupActions"
+                ></ix-backup-task-tile>
+              </mat-grid-tile>
+            }
+          </mat-grid-list>
+          @if (!hasSendTasks) {
+            <div class="banner">
+              <ng-template *ngTemplateOutlet="backupActions"></ng-template>
+            </div>
+          }
+        </div>
+      }
+
+      @if (!backupsTiles.length || isLoading) {
+        <ix-backup-task-empty
+          [isLoading]="isLoading"
+          [backupActions]="backupActions"
+          (addReplicationTask)="addReplicationTask()"
+          (addCloudSyncTask)="addCloudSyncTask()"
+          (addRsyncTask)="addRsyncTask()"
+        ></ix-backup-task-empty>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #backupActions>
+  <ix-backup-task-actions
+    [allCount]="allCount"
+    (taskAdded)="getBackups()"
+    (addReplicationTask)="addReplicationTask()"
+    (addCloudSyncTask)="addCloudSyncTask()"
+  ></ix-backup-task-actions>
+</ng-template>

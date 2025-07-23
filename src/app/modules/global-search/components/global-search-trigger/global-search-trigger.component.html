@@ -1,0 +1,20 @@
+<div class="search-box" [class.hidden]="overlayRef?.hasAttached()">
+  <ix-icon name="search" class="search-icon" (click)="showOverlay()"></ix-icon>
+
+  <input
+    #searchInput
+    matInput
+    ixTest="global-search"
+    class="search-input"
+    [placeholder]="'Search UI' | translate"
+    (click)="showOverlay()"
+    (focus)="overlayRef?.detach(); searchInput.blur(); showOverlay()"
+    (blur)="overlayRef?.detach()"
+  />
+
+  <ix-keyboard-shortcut
+    class="shortcut"
+    key="/"
+    (keyPress)="showOverlay()"
+  ></ix-keyboard-shortcut>
+</div>

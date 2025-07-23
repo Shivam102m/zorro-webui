@@ -1,0 +1,20 @@
+@if (isInAdvancedMode) {
+  <ix-advanced-search
+    #advancedSearch
+    [query]="advancedQuery"
+    [properties]="properties()"
+    [placeholder]="advancedSearchPlaceholder()"
+    (paramsChange)="advancedSearchUpdated($event)"
+    (switchToBasic)="toggleAdvancedMode()"
+    (runSearch)="runSearch.emit()"
+  ></ix-advanced-search>
+} @else {
+  <ix-basic-search
+    [query]="basicQuery"
+    [allowAdvanced]="allowAdvanced()"
+    (queryChange)="basicSearchUpdated($event)"
+    (switchToAdvanced)="toggleAdvancedMode()"
+    (runSearch)="runSearch.emit()"
+  ></ix-basic-search>
+}
+

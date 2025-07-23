@@ -1,0 +1,15 @@
+:host ::ng-deep {
+  @import '@xterm/xterm/css/xterm';
+}
+
+.terminal-wrapper {
+  background: black;
+  height: calc(100% - 105px);
+  margin-left: 8px;
+  margin-right: 8px;
+  padding: 10px 0 10px 10px;
+}
+
+#terminal {
+  height: 100%;
+}

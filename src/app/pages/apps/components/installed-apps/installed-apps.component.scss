@@ -1,0 +1,32 @@
+:host {
+  display: block;
+}
+
+.global-update {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+
+  > span {
+    font-size: 16px;
+  }
+}
+
+.has-updates-icon {
+  height: 18px;
+  width: 18px;
+}
+
+.discover-apps-button {
+  min-width: 180px;
+}
+
+.update-all-button ::ng-deep {
+  .mdc-button__label {
+    gap: 4px;
+
+    ix-icon {
+      font-size: 18px;
+    }
+  }
+}

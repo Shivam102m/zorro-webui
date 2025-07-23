@@ -1,0 +1,9 @@
+<div mat-dialog-content id="console-box">
+  <pre #messageContainer class="messages">{{ lines$ | async }}</pre>
+</div>
+<div mat-dialog-actions>
+  <button mat-button matDialogClose="false" class="close-button" ixTest="close">
+    {{ 'Close' | translate }}
+  </button>
+</div>
+<div id="placeholder"></div>

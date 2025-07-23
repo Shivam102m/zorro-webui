@@ -1,0 +1,23 @@
+{
+  "extends": [
+    "stylelint-config-sass-guidelines"
+  ],
+
+  "rules": {
+    "selector-no-qualifying-type": null,
+    "selector-max-compound-selectors": null,
+    "color-named": null,
+    "selector-max-id": null,
+    "max-nesting-depth": 4,
+    "selector-class-pattern": null,
+    "declaration-property-value-disallowed-list": null,
+    "property-no-unknown": null,
+    "selector-pseudo-element-no-unknown": [true, {
+      "ignorePseudoElements": ["ng-deep"]
+    }],
+    "selector-disallowed-list": ["mat-icon"]
+  },
+  "ignoreFiles": [
+    "src/assets/iconfont/mdi/scss/_functions.scss"
+  ]
+}

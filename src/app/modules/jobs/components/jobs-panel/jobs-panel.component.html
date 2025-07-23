@@ -1,0 +1,79 @@
+<mat-dialog-content>
+  <div class="jobs-header">
+    <h3>{{ 'Running Jobs' | translate }}</h3>
+
+    <div class="badges">
+      <div
+        class="job-badge running"
+        [matTooltip]="'Active' | translate"
+      >
+        <span class="job-badge-count">{{ runningJobsCount$ | async }}</span>
+        <ix-icon name="sync" class="job-icon-running"></ix-icon>
+      </div>
+      <div
+        class="job-badge waiting"
+        [matTooltip]="'Waiting' | translate"
+      >
+        <span class="job-badge-count">{{ waitingJobsCount$ | async }}</span>
+        <ix-icon name="schedule" class="job-icon-waiting"></ix-icon>
+      </div>
+      <div
+        class="job-badge failed"
+        [matTooltip]="'Failed' | translate"
+      >
+        <span class="job-badge-count">{{ failedJobsCount$ | async }}</span>
+        <ix-icon name="cancel" class="job-icon-failed"></ix-icon>
+      </div>
+    </div>
+  </div>
+
+  @if (isLoading$ | async) {
+    <div>
+      <mat-progress-bar
+        class="loading-indicator"
+        color="primary"
+        mode="indeterminate"
+      ></mat-progress-bar>
+    </div>
+  } @else {
+    @let jobs = availableJobs$ | async;
+    @if (jobs?.length) {
+      <div class="jobs-list">
+        @for (job of jobs; track job.id) {
+          <ix-job-item
+            [job]="job"
+            [clickable]="true"
+            (aborted)="onAbort(job)"
+            (opened)="openJobDialog(job)"
+          ></ix-job-item>
+        }
+      </div>
+    } @else {
+      <div class="no-jobs">
+        <ix-icon name="info"></ix-icon>
+        <h4 class="message">{{ 'No jobs running.' | translate }}</h4>
+      </div>
+    }
+  }
+
+  @if (error$ | async; as error) {
+    <div class="error">
+      <ix-icon name="cancel" class="icon" color="accent"></ix-icon>
+      <h4 class="message">
+        <span class="error-word">{{ 'Error' | translate }}:</span>
+        {{ error }}
+      </h4>
+    </div>
+  }
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    ixTest="history"
+    (click)="goToJobs()"
+  >
+    {{ 'Go to Jobs Page' | translate }}
+  </button>
+</mat-dialog-actions>

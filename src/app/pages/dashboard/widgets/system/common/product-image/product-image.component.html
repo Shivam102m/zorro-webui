@@ -1,0 +1,41 @@
+<div class="product-image-placeholder" [ngClass]="productEnclosure()">
+  @if (systemProduct()) {
+    @if (isIxHardware()) {
+      <img
+        matTooltipPosition="above"
+        [matTooltip]="'View Enclosure' | translate"
+        [id]="product()"
+        [class.clickable]="hasEnclosureSupport()"
+        [matTooltipDisabled]="!hasEnclosureSupport()"
+        [src]="productImage()"
+        (click)="goToEnclosure()"
+      />
+    } @else {
+      <ix-icon name="ix-truenas-logo-mark" [fullSize]="true"></ix-icon>
+    }
+  } @else {
+    <ngx-skeleton-loader
+      class="image-loader"
+      [theme]="{
+        width: '100%',
+        height: 'auto',
+        'aspect-ratio': '1',
+        background: 'var(--alt-bg2)',
+        opacity: 0.25
+      }"
+    ></ngx-skeleton-loader>
+  }
+</div>
+
+@if (showProductImageText()) {
+  <div class="product-image-text">
+    @if (productImage() && isHaLicensed()) {
+      <strong>(<ng-content></ng-content>)</strong>
+    }
+    @if (isUnsupportedHardware()) {
+      <strong>({{ 'Unsupported Hardware' | translate }})</strong>
+    }
+  </div>
+}
+
+

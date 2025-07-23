@@ -1,0 +1,7 @@
+@if (isAnimating || !hideOnComplete()) {
+  <mat-progress-bar
+    mode="determinate"
+    @fadeOut
+    [value]="progress"
+  ></mat-progress-bar>
+}

@@ -1,0 +1,65 @@
+<div class="job-item">
+  <div class="job-icon">
+    @switch (job().state) {
+      @case (JobState.Success) {
+        <ix-icon
+          name="check_circle_outline"
+          class="success"
+        ></ix-icon>
+      }
+      @case (JobState.Failed) {
+        <ix-icon
+          name="highlight_off"
+          class="failed"
+          [matTooltip]="job().error"
+        ></ix-icon>
+      }
+      @case (JobState.Running) {
+        <mat-spinner
+          class="running"
+          [diameter]="22"
+          [matTooltip]="job().progress.description"
+        ></mat-spinner>
+      }
+      @case (JobState.Waiting) {
+        <ix-icon class="waiting" name="schedule"></ix-icon>
+      }
+      @case (JobState.Aborted) {
+        <ix-icon class="aborted" name="report"></ix-icon>
+      }
+    }
+  </div>
+
+  <div class="job-name-wrapper">
+    <div class="job-name">
+      <span>{{ job().description ? job().description : job().method }}</span>
+      @if (isRunning()) {
+        <small>
+          {{ job().progress.percent || 0 | number: '1.2-2' }}%
+        </small>
+      }
+    </div>
+
+    @if (isRunning()) {
+      <mat-progress-bar
+        class="job-progress"
+        [value]="job().progress.percent"
+        [mode]="job().progress.percent ? 'determinate' : 'indeterminate'"
+        [matTooltip]="job().progress.description"
+      ></mat-progress-bar>
+    }
+  </div>
+</div>
+
+@if (isRunning() && job().abortable) {
+  <button
+    mat-icon-button
+    type="button"
+    [ixTest]="['abort-job', job().description]"
+    [matTooltip]="'Abort' | translate"
+    [attr.aria-label]="'Abort' | translate"
+    (click)="onAborted()"
+  >
+    <ix-icon name="mdi-close-circle"></ix-icon>
+  </button>
+}

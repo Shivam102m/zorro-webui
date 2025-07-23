@@ -1,0 +1,45 @@
+<mat-card class="container">
+  <mat-card-content class="card-content">
+    <div class="inner-container">
+      <div class="left-pane">
+        <div class="header dialog-header"><h3>{{ 'Inspect VDEVs' | translate }}</h3></div>
+        <mat-nav-list>
+          @for (type of presentTypes; track type) {
+            <mat-list-item
+              class="vdev-type"
+              [class.selected]="type === selectedType"
+              (click)="selectType(type)"
+            >{{ getTypeLabel(type) | translate }}</mat-list-item>
+          }
+        </mat-nav-list>
+      </div>
+      <mat-divider class="divider" [vertical]="true"></mat-divider>
+      <div class="right-pane">
+        <div class="header vdevs-header">
+          <h3>{{ '{type} VDEVs' | translate: { type: (getTypeLabel(selectedType) | translate) } }}</h3>
+
+          <button
+            mat-icon-button
+            mat-dialog-close
+            class="close-icon"
+            ixTest="close-button"
+            [aria-label]="'Close Inspect VDEVs Dialog' | translate"
+          >
+            <ix-icon name="clear"></ix-icon>
+          </button>
+        </div>
+
+        <mat-divider class="header-divider"></mat-divider>
+        <div class="vdevs-container">
+          @for (vdev of vdevs; track vdev) {
+            <ix-manual-selection-vdev
+              [vdev]="vdev"
+              [layout]="layout"
+              [enclosures]="data.enclosures"
+            ></ix-manual-selection-vdev>
+          }
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

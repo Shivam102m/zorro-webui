@@ -1,0 +1,74 @@
+<mat-card id="access-card" [ixUiSearch]="searchableElements.elements.access">
+  <mat-toolbar-row>
+    <h3>{{ 'Access' | translate }}</h3>
+    <div class="actions action-icon">
+      <button
+        *ixRequiresRoles="requiredRoles"
+        mat-button
+        [ixTest]="['sessions', 'terminate']"
+        [disabled]="dataProvider.isLoading$ | async"
+        [ixUiSearch]="searchableElements.elements.terminateOtherSessions"
+        (click)="onTerminateOther()"
+      >
+        {{ 'Terminate Other Sessions' | translate }}
+      </button>
+      <button
+        *ixRequiresRoles="requiredRoles"
+        mat-button
+        [ixTest]="['sessions', 'configure']"
+        [ixUiSearch]="searchableElements.elements.configure"
+        (click)="onConfigure()"
+      >
+        {{ 'Configure' | translate }}
+      </button>
+    </div>
+  </mat-toolbar-row>
+
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item [ixUiSearch]="searchableElements.elements.sessionTimeout">
+        <span class="label">{{ 'Session Timeout' | translate }}:</span>
+        <span *ixWithLoadingState="sessionTimeout$ as sessionTimeout" class="value">
+          {{ asDuration(sessionTimeout) }}
+        </span>
+      </mat-list-item>
+      @if (isEnterprise) {
+        <mat-list-item>
+          <span class="label">{{ 'Allow Directory Service users to access WebUI' | translate }}:</span>
+          <span *ixWithLoadingState="generalConfig$ as generalConfig" class="value">
+            {{ generalConfig | yesNo }}
+          </span>
+        </mat-list-item>
+      }
+      <mat-list-item [ixUiSearch]="searchableElements.elements.loginBanner">
+        <span class="label">{{ 'Login Banner' | translate }}:</span>
+        <span *ixWithLoadingState="loginBanner$ as loginBanner" class="value">
+          {{ loginBanner || '–' }}
+        </span>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+
+  <ix-table
+    class="table"
+    [ix-table-empty]="!(dataProvider.currentPageCount$ | async)"
+    [emptyConfig]="emptyService.defaultEmptyConfig(dataProvider.emptyType$ | async)"
+  >
+    <thead
+      ix-table-head
+      [columns]="columns"
+      [dataProvider]="dataProvider"
+    ></thead>
+    <tbody
+      ix-table-body
+      [columns]="columns"
+      [dataProvider]="dataProvider"
+      [isLoading]="!!(dataProvider.isLoading$ | async)"
+    ></tbody>
+  </ix-table>
+  <ix-table-pager-show-more
+    [pageSize]="5"
+    [dataProvider]="dataProvider"
+    [ixTestOverride]="['access']"
+  ></ix-table-pager-show-more>
+</mat-card>

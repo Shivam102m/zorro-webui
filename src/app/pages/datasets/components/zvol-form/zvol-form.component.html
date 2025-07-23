@@ -1,0 +1,174 @@
+<ix-modal-header
+  [requiredRoles]="requiredRoles"
+  [title]="title"
+  [loading]="isLoading"
+></ix-modal-header>
+
+<mat-card>
+  <mat-card-content>
+    <form class="ix-form-container" [formGroup]="form" (submit)="onSubmit()">
+      <ix-fieldset>
+        <ix-input
+          formControlName="name"
+          [label]="helptext.zvol_name_placeholder | translate"
+          [tooltip]="helptext.zvol_name_tooltip | translate"
+          [required]="true"
+        ></ix-input>
+        <ix-input
+          formControlName="comments"
+          [label]="helptext.zvol_comments_placeholder | translate"
+          [tooltip]="helptext.zvol_comments_tooltip | translate"
+        ></ix-input>
+        <ix-input
+          formControlName="volsize"
+          [label]="helptext.zvol_volsize_placeholder | translate"
+          [tooltip]="helptext.zvol_volsize_tooltip | translate"
+          [format]="formatter.memorySizeFormatting"
+          [parse]="formatter.memorySizeParsing"
+          [required]="true"
+        ></ix-input>
+        <ix-checkbox
+          formControlName="force_size"
+          [label]="helptext.zvol_forcesize_placeholder | translate"
+          [tooltip]="helptext.zvol_forcesize_tooltip | translate"
+        ></ix-checkbox>
+        <ix-select
+          formControlName="sync"
+          [label]="helptext.zvol_sync_placeholder | translate"
+          [tooltip]="helptext.zvol_sync_tooltip | translate"
+          [options]="syncOptions$"
+          [required]="true"
+        ></ix-select>
+        <ix-select
+          formControlName="compression"
+          [label]="helptext.zvol_compression_placeholder | translate"
+          [tooltip]="helptext.zvol_compression_tooltip | translate"
+          [options]="compressionOptions$"
+          [required]="true"
+        ></ix-select>
+        <ix-select
+          formControlName="deduplication"
+          [label]="helptext.zvol_deduplication_placeholder | translate"
+          [tooltip]="helptext.zvol_deduplication_tooltip | translate"
+          [options]="deduplicationOptions$"
+          [required]="true"
+        ></ix-select>
+        @if (form.controls.sparse.enabled) {
+          <ix-checkbox
+            formControlName="sparse"
+            [label]="helptext.zvol_sparse_placeholder | translate"
+            [tooltip]="helptext.zvol_sparse_tooltip | translate"
+          ></ix-checkbox>
+        }
+        <ix-select
+          formControlName="readonly"
+          [label]="helptext.zvol_readonly_placeholder | translate"
+          [tooltip]="helptext.zvol_readonly_tooltip | translate"
+          [options]="readonlyOptions$"
+          [required]="true"
+        ></ix-select>
+        @if (form.controls.volblocksize.enabled) {
+          <ix-select
+            formControlName="volblocksize"
+            [label]="helptext.zvol_volblocksize_placeholder | translate"
+            [tooltip]="helptext.zvol_volblocksize_tooltip | translate"
+            [options]="volblocksizeOptions$"
+            [required]="true"
+          ></ix-select>
+        }
+        <ix-select
+          formControlName="snapdev"
+          [label]="'Snapdev' | translate"
+          [tooltip]="'Controls whether the volume snapshot devices under /dev/zvol/⟨pool⟩  are hidden or visible. The default value is hidden.' | translate"
+          [options]="snapdevOptions$"
+          [required]="true"
+        ></ix-select>
+      </ix-fieldset>
+      @if (isNew) {
+        <ix-fieldset [title]="helptext.dataset_form_encryption.fieldset_title | translate">
+          <ix-checkbox
+            formControlName="inherit_encryption"
+            [label]="inheritEncryptPlaceholder | translate"
+            [tooltip]="helptext.dataset_form_encryption.inherit_checkbox_tooltip | translate"
+          ></ix-checkbox>
+          @if (!form.controls.inherit_encryption.value) {
+            <ix-checkbox
+              formControlName="encryption"
+              [label]="helptext.dataset_form_encryption.encryption_checkbox_placeholder | translate"
+              [tooltip]="helptext.dataset_form_encryption.encryption_checkbox_tooltip | translate"
+            ></ix-checkbox>
+          }
+          @if (form.controls.encryption_type.enabled) {
+            <ix-select
+              formControlName="encryption_type"
+              [label]="helptext.dataset_form_encryption.encryption_type_placeholder | translate"
+              [tooltip]="helptext.dataset_form_encryption.encryption_type_tooltip | translate"
+              [options]="encryptionTypeOptions$"
+              [required]="true"
+            ></ix-select>
+          }
+          @if (form.controls.generate_key.enabled) {
+            <ix-checkbox
+              formControlName="generate_key"
+              [label]="helptext.dataset_form_encryption.generate_key_checkbox_placeholder | translate"
+              [tooltip]="helptext.dataset_form_encryption.generate_key_checkbox_tooltip | translate"
+            ></ix-checkbox>
+          }
+          @if (form.controls.key.enabled) {
+            <ix-textarea
+              formControlName="key"
+              [label]="helptext.dataset_form_encryption.key_placeholder | translate"
+              [tooltip]="helptext.dataset_form_encryption.key_tooltip | translate"
+              [required]="true"
+            ></ix-textarea>
+          }
+          @if (form.controls.passphrase.enabled) {
+            <ix-input
+              formControlName="passphrase"
+              type="password"
+              [label]="helptext.dataset_form_encryption.passphrase_placeholder | translate"
+              [tooltip]="helptext.dataset_form_encryption.passphrase_tooltip | translate"
+              [required]="true"
+            ></ix-input>
+          }
+          @if (form.controls.confirm_passphrase.enabled) {
+            <ix-input
+              formControlName="confirm_passphrase"
+              type="password"
+              [label]="helptext.dataset_form_encryption.confirm_passphrase_placeholder | translate"
+              [required]="true"
+            ></ix-input>
+          }
+          @if (form.controls.pbkdf2iters.enabled) {
+            <ix-input
+              formControlName="pbkdf2iters"
+              [label]="helptext.dataset_form_encryption.pbkdf2iters_placeholder | translate"
+              [tooltip]="helptext.dataset_form_encryption.pbkdf2iters_tooltip | translate"
+              [required]="true"
+            ></ix-input>
+          }
+          @if (form.controls.algorithm.enabled) {
+            <ix-select
+              formControlName="algorithm"
+              [label]="helptext.dataset_form_encryption.algorithm_placeholder | translate"
+              [tooltip]="helptext.dataset_form_encryption.algorithm_tooltip | translate"
+              [options]="algorithmOptions$"
+              [required]="true"
+            ></ix-select>
+          }
+        </ix-fieldset>
+      }
+
+      <ix-form-actions>
+        <button
+          *ixRequiresRoles="requiredRoles"
+          mat-button
+          type="submit"
+          color="primary"
+          ixTest="save"
+          [disabled]="form.invalid || isLoading"
+        >{{ 'Save' | translate }}</button>
+      </ix-form-actions>
+    </form>
+  </mat-card-content>
+</mat-card>

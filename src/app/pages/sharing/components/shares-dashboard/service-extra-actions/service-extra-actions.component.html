@@ -1,0 +1,50 @@
+@if (service()) {
+  <div>
+    <button
+      mat-icon-button
+      [attr.aria-label]="'Table Actions of Expandable Table' | translate"
+      [ixTest]="[service().id, 'actions-menu']"
+      [matMenuTriggerFor]="rowActions"
+    >
+      <ix-icon name="more_vert"></ix-icon>
+    </button>
+    <mat-menu #rowActions="matMenu">
+      <button
+        *ixRequiresRoles="requiredRoles()"
+        mat-menu-item
+        [ixTest]="[service().service, 'actions-menu', serviceStateLabel()]"
+        (click)="changeServiceState(service())"
+      >
+        {{ serviceStateLabel() | translate }}
+      </button>
+
+      <button
+        mat-menu-item
+        [ixTest]="[service().service, 'actions-menu', configServiceLabel]"
+        (click)="configureService(service())"
+      >
+        {{ configServiceLabel | translate }}
+      </button>
+
+      @if (hasSessions()) {
+        <button
+          mat-menu-item
+          [ixTest]="[service().service, 'actions-menu', 'sessions']"
+          (click)="viewSessions(service().service)"
+        >
+          {{ '{name} Sessions' | translate: { name: serviceNames.get(service().service) } }}
+        </button>
+      }
+
+      @if (hasLogs()) {
+        <button
+          mat-menu-item
+          [ixTest]="[service().service, 'actions-menu', 'logs']"
+          (click)="viewLogs()"
+        >
+          {{ 'Audit Logs' | translate }}
+        </button>
+      }
+    </mat-menu>
+  </div>
+}

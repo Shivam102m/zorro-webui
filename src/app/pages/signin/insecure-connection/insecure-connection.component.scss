@@ -1,0 +1,15 @@
+:host {
+  align-items: center;
+  column-gap: 9px;
+  display: flex;
+  font-size: 12px;
+  padding: 0 0 5px 8px;
+}
+
+ix-icon {
+  font-size: 1rem;
+}
+
+.message {
+  flex-grow: 1;
+}

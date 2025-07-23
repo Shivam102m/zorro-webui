@@ -1,0 +1,137 @@
+@if (label() || tooltip()) {
+  <ix-label
+    [label]="label()"
+    [tooltip]="tooltip()"
+    [required]="required()"
+    [ixTestOverride]="controlDirective.name || ''"
+  ></ix-label>
+}
+
+<div class="permissions-container">
+  <table ixTest="permissions-table" [class.disabled]="isDisabled">
+    <tr [ixTest]="[controlDirective.name, 'permissions-header']">
+      <td></td>
+      <td>
+        <span class="header-label">{{ 'Read' | translate }}</span>
+      </td>
+      <td>
+        <span class="header-label">{{ 'Write' | translate }}</span>
+      </td>
+      <td>
+        <span class="header-label">{{ 'Execute' | translate }}</span>
+      </td>
+    </tr>
+    <tr [ixTest]="[controlDirective.name, 'user-permissions']">
+      <td>
+        <span class="header-label">{{ 'User' | translate }}</span>
+      </td>
+      <td>
+        <mat-checkbox
+          color="primary"
+          ixTest="user-read"
+          [disabled]="isDisabled"
+          [checked]="ownerRead"
+          [attr.aria-label]="'User Read' | translate"
+          (change)="toggleOwnerRead()"
+        ></mat-checkbox>
+      </td>
+      <td>
+        <mat-checkbox
+          color="primary"
+          ixTest="user-write"
+          [disabled]="isDisabled"
+          [checked]="ownerWrite"
+          [attr.aria-label]="'User Write' | translate"
+          (change)="toggleOwnerWrite()"
+        ></mat-checkbox>
+      </td>
+      <td>
+        <mat-checkbox
+          color="primary"
+          ixTest="user-execute"
+          [disabled]="isDisabled"
+          [checked]="ownerExec"
+          [attr.aria-label]="'User Execute' | translate"
+          (change)="toggleOwnerExec()"
+        ></mat-checkbox>
+      </td>
+    </tr>
+    <tr [ixTest]="[controlDirective.name, 'group-permissions']">
+      <td>
+        <span class="header-label">{{ 'Group' | translate }}</span>
+      </td>
+      <td>
+        <mat-checkbox
+          color="primary"
+          ixTest="group-read"
+          [disabled]="isDisabled"
+          [checked]="groupRead"
+          [attr.aria-label]="'Group Read' | translate"
+          (change)="toggleGroupRead()"
+        ></mat-checkbox>
+      </td>
+      <td>
+        <mat-checkbox
+          color="primary"
+          ixTest="group-write"
+          [disabled]="isDisabled"
+          [checked]="groupWrite"
+          [attr.aria-label]="'Group Write' | translate"
+          (change)="toggleGroupWrite()"
+        ></mat-checkbox>
+      </td>
+      <td>
+        <mat-checkbox
+          color="primary"
+          ixTest="group-execute"
+          [disabled]="isDisabled"
+          [checked]="groupExec"
+          [attr.aria-label]="'Group Execute' | translate"
+          (change)="toggleGroupExec()"
+        ></mat-checkbox>
+      </td>
+    </tr>
+    @if (!hideOthersPermissions()) {
+      <tr [ixTest]="[controlDirective.name, 'other-permissions']">
+        <td>
+          <span class="header-label">{{ 'Other' | translate }}</span>
+        </td>
+        <td>
+          <mat-checkbox
+            color="primary"
+            ixTest="other-read"
+            [disabled]="isDisabled"
+            [checked]="otherRead"
+            [attr.aria-label]="'Other Read' | translate"
+            (change)="toggleOtherRead()"
+          ></mat-checkbox>
+        </td>
+        <td>
+          <mat-checkbox
+            color="primary"
+            ixTest="other-write"
+            [disabled]="isDisabled"
+            [checked]="otherWrite"
+            [attr.aria-label]="'Other Write' | translate"
+            (change)="toggleOtherWrite()"
+          ></mat-checkbox>
+        </td>
+        <td>
+          <mat-checkbox
+            color="primary"
+            ixTest="other-execute"
+            [disabled]="isDisabled"
+            [checked]="otherExec"
+            [attr.aria-label]="'Other Execute' | translate"
+            (change)="toggleOtherExec()"
+          ></mat-checkbox>
+        </td>
+      </tr>
+    }
+  </table>
+</div>
+
+@let control = controlDirective.control;
+@if (control) {
+  <ix-errors [control]="control" [label]="label()"></ix-errors>
+}

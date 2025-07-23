@@ -1,0 +1,22 @@
+@if (state()) {
+  <button
+    mat-stroked-button
+    class="state-button"
+    matTooltipPosition="above"
+    [ixTest]="[title, uniqueRowTag(row()), 'row-state']"
+    [ngClass]="getButtonClass()"
+    [matTooltip]="tooltip"
+    [attr.aria-label]="getAriaLabel(row())"
+    (click)="$event.stopPropagation(); onButtonClick()"
+  >
+    {{ state() }}
+    @if (warnings.length > 0) {
+      <div class="label-warning-icon">
+        <ix-icon name="mdi-alert"></ix-icon>
+      </div>
+    }
+  </button>
+} @else {
+  {{ 'N/A' | translate }}
+}
+

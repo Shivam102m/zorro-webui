@@ -1,0 +1,111 @@
+<div class="alerts-header">
+  <h3 class="alerts-title">{{ 'Alerts' | translate }}</h3>
+
+  <div class="controls">
+    <button
+      mat-icon-button
+      ixTest="settings-menu"
+      [title]="'Settings' | translate"
+      [matMenuTriggerFor]="alertSettingsMenu"
+    >
+      <ix-icon name="settings"></ix-icon>
+    </button>
+    <mat-menu #alertSettingsMenu="matMenu">
+      <a mat-menu-item ixTest="alert-settings" (click)="navigateTo(['/system', 'alert-settings'])">
+        {{ 'Alert Settings' | translate }}
+      </a>
+      <a
+        mat-menu-item
+        ixTest="email-settings"
+        ixNavigateAndHighlight
+        navigateHash="email-settings"
+        [navigateRoute]="['/system', 'general']"
+        (click)="closePanel()"
+      >
+        {{ 'Email' | translate }}
+      </a>
+    </mat-menu>
+    <button
+      mat-icon-button
+      ixTest="close-panel"
+      [title]="'Close panel' | translate"
+      (click)="onPanelClosed()"
+    >
+      <ix-icon name="clear"></ix-icon>
+    </button>
+  </div>
+</div>
+
+@if (isLoading$ | async) {
+  <div>
+    <mat-progress-bar
+      class="loading-indicator"
+      color="primary"
+      mode="indeterminate"
+    ></mat-progress-bar>
+  </div>
+} @else {
+  <!-- TODO: Consider extracting into its own component -->
+  @if (error$ | async; as error) {
+    <div class="error">
+      <ix-icon class="icon" color="accent" name="cancel"></ix-icon>
+      <h4 class="message">
+        <span class="error-word">{{ 'Error:' | translate }}</span>
+        {{ error }}
+      </h4>
+    </div>
+  }
+
+  @let unreadAlerts = unreadAlerts$ | async;
+  @if (!unreadAlerts?.length) {
+    <div class="no-alerts">
+      <ix-icon class="icon" name="info"></ix-icon>
+      <h4 class="message">{{ 'There are no alerts.' | translate }}</h4>
+    </div>
+  } @else {
+    <div class="alert-list unread-alerts">
+      @for (alert of unreadAlerts; track alert.id; let last = $last) {
+        <div
+          class="alert"
+          role="listitem"
+          [class.alert-last]="last"
+        >
+          <ix-alert [alert]="alert" [isHaLicensed]="isHaLicensed"></ix-alert>
+        </div>
+      }
+    </div>
+    <button
+      *ixRequiresRoles="requiredRoles"
+      matRipple
+      class="button-row"
+      ixTest="dismiss-all-alerts"
+      (click)="onDismissAll()"
+    >
+      {{ 'Dismiss All Alerts' | translate }}
+    </button>
+  }
+
+  @let dismissedAlerts = dismissedAlerts$ | async;
+  @if (dismissedAlerts?.length) {
+    <div class="alert-list dismissed-alerts">
+      @for (alert of dismissedAlerts; track alert.id; let last = $last) {
+        <div
+          class="alert"
+          role="listitem"
+          [class.alert-last]="last"
+        >
+          <ix-alert [alert]="alert" [isHaLicensed]="isHaLicensed"></ix-alert>
+        </div>
+      }
+    </div>
+    <button
+      *ixRequiresRoles="requiredRoles"
+      class="button-row"
+      matRipple
+      ixTest="reopen-all-alerts"
+      (click)="onReopenAll()"
+    >
+      {{ 'Re-Open All Alerts' | translate }}
+    </button>
+  }
+}

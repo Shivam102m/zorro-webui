@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="table-container">
+    <ng-content select="[master]"></ng-content>
+  </div>
+
+  @if (selectedItem() && showDetails()) {
+    <div
+      class="details-container"
+      ixDetailsHeight
+      [class.details-container-mobile]="showMobileDetails()"
+    >
+      <div class="header-container">
+        @if(isMobileView()) {
+          <ix-mobile-back-button
+            (close)="toggleShowMobileDetails(false)"
+          ></ix-mobile-back-button>
+        }
+        <h3 class="header">
+          <ng-content select="[detail-header]"></ng-content>
+        </h3>
+      </div>
+
+      <div>
+        <ng-content select="[detail]"></ng-content>
+      </div>
+    </div>
+  }
+</div>
+

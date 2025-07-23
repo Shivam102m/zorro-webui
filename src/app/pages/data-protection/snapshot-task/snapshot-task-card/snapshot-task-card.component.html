@@ -1,0 +1,56 @@
+<mat-card>
+  <mat-toolbar-row>
+    <a [ixTest]="['snapshot-task', 'open-in-new']" [routerLink]="['/data-protection', 'snapshot']">
+      <h3 class="card-title">
+        {{ 'Periodic Snapshot Tasks' | translate }}
+        <ix-icon name="open_in_new" class="title-icon"></ix-icon>
+      </h3>
+    </a>
+    <div class="actions">
+      <button
+        *ixRequiresRoles="requiredRoles"
+        mat-button
+        [ixTest]="['snapshot-task', 'add']"
+        [attr.aria-label]="'Add Snapshot Task' | translate"
+        (click)="openForm()"
+      >
+        {{ 'Add' | translate }}
+      </button>
+    </div>
+  </mat-toolbar-row>
+
+  <ix-table
+    class="table"
+    [ix-table-empty]="!(dataProvider.currentPageCount$ | async)"
+    [emptyConfig]="emptyService.defaultEmptyConfig(dataProvider.emptyType$ | async)"
+  >
+    <thead
+      ix-table-head
+      [columns]="columns"
+      [dataProvider]="dataProvider"
+    ></thead>
+    <tbody
+      ix-table-body
+      [columns]="columns"
+      [dataProvider]="dataProvider"
+      [isLoading]="!!(dataProvider.isLoading$ | async)"
+    ></tbody>
+  </ix-table>
+
+  <div class="justify-end">
+    <div class="footer-actions">
+      <a
+        mat-button
+        [ixTest]="['snapshot-task', 'vmware-snapshots']"
+        [routerLink]="['/data-protection', 'vmware-snapshots']"
+        [ixUiSearch]="uiSearchableElement.elements.vmwareSnapshots"
+      >{{ 'VMware Snapshot Integration' | translate }}</a>
+
+      <a
+        mat-button
+        [ixTest]="['snapshot-task', 'snapshots']"
+        [routerLink]="['/datasets', 'snapshots']"
+      >{{ 'Snapshots' | translate }}</a>
+    </div>
+  </div>
+</mat-card>

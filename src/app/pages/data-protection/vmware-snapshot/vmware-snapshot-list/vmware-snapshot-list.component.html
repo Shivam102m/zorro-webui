@@ -1,0 +1,54 @@
+<ix-page-header>
+  <ix-search-input1 [value]="filterString" (search)="onListFiltered($event)"></ix-search-input1>
+  <button *ixRequiresRoles="requiredRoles" mat-button ixTest="add-vmware-snapshot" [color]="'primary'" (click)="doAdd()">
+    {{ 'Add' | translate }}
+  </button>
+</ix-page-header>
+
+<div class="table-container">
+  <ix-table
+    [ixUiSearch]="searchableElements.elements.vmwareSnapshots"
+    [ix-table-empty]="!(dataProvider.currentPageCount$ | async)"
+    [emptyConfig]="emptyService.defaultEmptyConfig(dataProvider.emptyType$ | async)"
+  >
+    <thead
+      ix-table-head
+      [columns]="columns"
+      [dataProvider]="dataProvider"
+    ></thead>
+    <tbody
+      ix-table-body
+      [columns]="columns"
+      [dataProvider]="dataProvider"
+      [isLoading]="!!(dataProvider.isLoading$ | async)"
+    >
+
+      <ng-template
+        let-snapshot
+        ix-table-cell
+        [columnIndex]="4"
+        [dataProvider]="dataProvider"
+      >
+        <ix-vmware-status-cell
+          [state]="snapshot.state"
+        ></ix-vmware-status-cell>
+      </ng-template>
+      <ng-template let-snapshot ix-table-details-row [dataProvider]="dataProvider">
+        <div class="table-details-row-actions">
+          <button
+            mat-button
+            [ixTest]="[snapshot.hostname, snapshot.filesystem, 'edit']"
+            (click)="doEdit(snapshot)"
+          >{{ 'Edit' | translate }}</button>
+          <button
+            *ixRequiresRoles="requiredRoles"
+            mat-button
+            [ixTest]="[snapshot.hostname, snapshot.filesystem, 'delete']"
+            (click)="doDelete(snapshot)"
+          >{{ 'Delete' | translate }}</button>
+        </div>
+      </ng-template>
+    </tbody>
+  </ix-table>
+  <ix-table-pager [dataProvider]="dataProvider"></ix-table-pager>
+</div>

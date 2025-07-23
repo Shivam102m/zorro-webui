@@ -1,0 +1,75 @@
+@import 'scss-imports/cssvars';
+
+mat-card-content {
+  position: relative;
+}
+
+ix-fake-progress-bar {
+  height: 2px;
+  position: absolute;
+  top: 0;
+}
+
+:host {
+  display: flex;
+  gap: 5px;
+  height: calc(100% - 150px);
+
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+
+    ::ng-deep {
+      .selector-container {
+        display: grid;
+        overflow: auto;
+      }
+    }
+  }
+
+  .mat-mdc-card {
+    height: 100%;
+    margin: 0;
+  }
+
+  .mat-mdc-card-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: auto;
+  }
+
+  .container {
+    align-items: stretch;
+    background-color: var(--contrast-darkest);
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    min-height: 330px;
+    padding: 0;
+
+    @media (max-width: $breakpoint-md) {
+      height: auto;
+      min-height: auto;
+    }
+
+    ::ng-deep {
+      .enclosure-image {
+        max-height: 350px;
+
+        &.has-side-switch {
+          max-height: 300px;
+        }
+      }
+    }
+  }
+}
+
+.view-container {
+  flex-grow: 1;
+  height: 100%;
+
+  @media (max-width: $breakpoint-md) {
+    height: 0;
+  }
+}

@@ -1,0 +1,74 @@
+<ix-modal-header
+  [requiredRoles]="requiredRoles"
+  [title]="'Syslog' | translate"
+  [loading]="isFormLoading"
+></ix-modal-header>
+
+<mat-card>
+  <mat-card-content>
+    <form class="ix-form-container" [formGroup]="form" (submit)="onSubmit()">
+      <ix-fieldset>
+        <ix-checkbox
+          formControlName="fqdn_syslog"
+          [label]="'Use FQDN for Logging' | translate"
+          [tooltip]="tooltips.fqdn_syslog | translate"
+        ></ix-checkbox>
+
+        <ix-select
+          formControlName="sysloglevel"
+          [label]="'Syslog Level' | translate"
+          [tooltip]="tooltips.sysloglevel | translate"
+          [options]="levelOptions$"
+        ></ix-select>
+
+        <ix-input
+          formControlName="syslogserver"
+          [label]="'Syslog Server' | translate"
+          [tooltip]="tooltips.syslogserver | translate"
+        ></ix-input>
+
+        <ix-select
+          formControlName="syslog_transport"
+          [label]="'Syslog Transport' | translate"
+          [tooltip]="tooltips.syslog_transport | translate"
+          [options]="transportOptions$"
+        ></ix-select>
+
+        @if (isTlsTransport$ | async) {
+          <ix-select
+            formControlName="syslog_tls_certificate"
+            [label]="'Syslog TLS Certificate' | translate"
+            [tooltip]="tooltips.syslog_transport | translate"
+            [options]="certificateOptions$"
+          ></ix-select>
+
+          <ix-select
+            formControlName="syslog_tls_certificate_authority"
+            [label]="'Syslog TLS Certificate Authority' | translate"
+            [options]="certificateAuthorityOptions$"
+            [required]="true"
+          ></ix-select>
+        }
+
+        <ix-checkbox
+          formControlName="syslog_audit"
+          [label]="'Include Audit Logs' | translate"
+          [tooltip]="tooltips.syslog_audit | translate"
+        ></ix-checkbox>
+      </ix-fieldset>
+
+      <ix-form-actions>
+        <button
+          *ixRequiresRoles="requiredRoles"
+          mat-button
+          type="submit"
+          color="primary"
+          ixTest="save"
+          [disabled]="form.invalid || isFormLoading"
+        >
+          {{ 'Save' | translate }}
+        </button>
+      </ix-form-actions>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,39 @@
+@if (poolExists) {
+  <mat-card class="card">
+    <mat-card-content class="card-content">
+      <div class="header">
+        <h3>{{ name | translate }}</h3>
+
+        <button
+          mat-icon-button
+          ixTest="pool-reports"
+          matTooltipPosition="above"
+          [attr.aria-label]="'Disk Reports' | translate"
+          [matTooltip]="'Disk Reports' | translate"
+          [routerLink]="['/reportsdashboard', 'disk']"
+        >
+          <ix-icon name="insert_chart"></ix-icon>
+        </button>
+      </div>
+      <div [class]="['container', size()]">
+        <div class="pool-info-wrapper">
+          <ix-pool-usage-gauge [pool]="pool()"></ix-pool-usage-gauge>
+
+          <div class="pool-info-bottom">
+            <ix-pool-status [pool]="pool()"></ix-pool-status>
+            <ix-disks-with-zfs-errors [pool]="pool()"></ix-disks-with-zfs-errors>
+            <ix-last-scan-errors [pool]="pool()"></ix-last-scan-errors>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+}
+
+@if (!poolExists) {
+  <ix-widget-datapoint
+    [size]="size()"
+    [label]="name | translate"
+    [text]="'Pool does not exist' | translate"
+  ></ix-widget-datapoint>
+}

@@ -1,0 +1,8 @@
+:host ::ng-deep {
+  .container {
+    &.quarter {
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+  }
+}

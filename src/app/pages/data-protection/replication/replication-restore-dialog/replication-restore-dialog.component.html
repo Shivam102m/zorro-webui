@@ -1,0 +1,36 @@
+<h1 matDialogTitle>
+  {{ 'Restore Replication Task' | translate }}
+</h1>
+<form class="ix-form-container" [formGroup]="form" (submit)="onSubmit()">
+  <ix-input
+    formControlName="name"
+    [label]="'Name' | translate"
+    [required]="true"
+    [tooltip]="helptext.name_tooltip | translate"
+  ></ix-input>
+
+  <ix-explorer
+    formControlName="target_dataset"
+    [label]="'Destination' | translate"
+    [required]="true"
+    [tooltip]="helptext.target_dataset_tooltip | translate"
+    [nodeProvider]="treeNodeProvider"
+  ></ix-explorer>
+
+  <ix-form-actions>
+    <button mat-button type="button" ixTest="cancel" matDialogClose>
+      {{ 'Cancel' | translate }}
+    </button>
+
+    <button
+      *ixRequiresRoles="requiredRoles"
+      mat-button
+      color="primary"
+      type="submit"
+      ixTest="restore"
+      [disabled]="form.invalid"
+    >
+      {{ 'Restore' | translate }}
+    </button>
+  </ix-form-actions>
+</form>

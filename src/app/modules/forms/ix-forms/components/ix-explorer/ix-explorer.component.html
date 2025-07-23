@@ -1,0 +1,96 @@
+@if (label() || tooltip()) {
+  <ix-label
+    [label]="label()"
+    [tooltip]="tooltip()"
+    [required]="required()"
+    [ixTestOverride]="controlDirective.name || ''"
+  ></ix-label>
+}
+
+<div class="input-container" [class.disabled]="isDisabled">
+  <input
+    #input
+    matInput
+    type="text"
+    autocomplete="off"
+    [value]="inputValue"
+    [ixTest]="controlDirective.name"
+    [required]="required()"
+    [disabled]="isDisabled"
+    [attr.aria-label]="'Enter path for {label}.{multiple}' | translate: { label: label(), multiple: multiple() ? ' Use commas to separate multiple values.' : '' }"
+    (change)="onInputChanged(input.value)"
+    (blur)="onTouch()"
+  />
+</div>
+@if (canCreateDataset()) {
+  <div class="create-dataset-container">
+    <button
+      *ixRequiresRoles="requiredRoles"
+      mat-button
+      type="button"
+      class="create-dataset-btn"
+      ixTest="create-dataset"
+      [disabled]="createDatasetDisabled"
+      (click)="createDataset()"
+    >
+      <ix-icon name="create_new_folder"></ix-icon>
+      {{ 'Create Dataset' | translate }}
+    </button>
+  </div>
+}
+<div class="tree-container" [class.disabled]="isDisabled" [attr.aria-label]="label()">
+  <tree-root
+    #tree
+    [nodes]="nodes()"
+    [options]="treeOptions()"
+    (select)="onNodeSelect($event)"
+    (deselect)="onNodeDeselect($event)"
+  >
+    <!-- Do not remove #treeNodeTemplate even though it appears to be unused -->
+    <ng-template #treeNodeTemplate let-node>
+      @if (typeNode(node); as node) {
+        <span
+          tabindex="0"
+          class="node-container"
+          [attr.aria-label]="ariaLabel(node)"
+          [class.selected]="isPathSelected(node.data.path)"
+          (keyup.enter)="node?.toggleSelected()"
+          (keydown.space)="$event.preventDefault(); node?.toggleExpanded()"
+        >
+          @if (node.data.type === ExplorerNodeType.File) {
+            <ix-icon name="insert_drive_file"></ix-icon>
+          } @else if (node.data.type === ExplorerNodeType.Symlink) {
+            <ix-icon name="mdi-database"></ix-icon>
+          } @else {
+            @if (node.data.isLock) {
+              <ix-icon name="mdi-folder-lock"></ix-icon>
+            } @else {
+              @if (node.data.isMountpoint) {
+                <ix-icon name="ix-dataset"></ix-icon>
+              } @else {
+                <ix-icon name="folder_open"></ix-icon>
+              }
+            }
+          }
+          <span class="node-name" [attr.aria-label]="node.data.name">{{ node.data.name }}</span>
+        </span>
+      }
+    </ng-template>
+  </tree-root>
+</div>
+
+
+@if (loadingError(); as loadingError) {
+  <mat-error class="loading-error">
+    {{ loadingError }}
+  </mat-error>
+}
+
+@let control = controlDirective.control;
+@if (control) {
+  <ix-errors [control]="control" [label]="label()"></ix-errors>
+}
+
+@if (hint(); as hintText) {
+  <mat-hint>{{ hintText }}</mat-hint>
+}

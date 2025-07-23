@@ -1,0 +1,68 @@
+@import 'scss-imports/variables';
+
+:host ::ng-deep {
+  mat-list-item {
+    height: inherit !important;
+  }
+}
+
+.card {
+  width: 100%;
+}
+
+.mat-toolbar-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.columns {
+  display: flex;
+  min-height: 100px;
+  overflow: auto;
+
+  @media (max-width: $breakpoint-tablet) {
+    display: block;
+  }
+
+  .first-column {
+    flex-grow: 1;
+    margin-right: 30px;
+    max-width: 35%;
+
+    @media (max-width: $breakpoint-tablet) {
+      margin-right: 0;
+      max-width: 100%;
+    }
+  }
+}
+
+.section-title {
+  font-size: 120%;
+  font-weight: bold;
+}
+
+.details-list li {
+  line-height: 2em;
+
+  .label {
+    margin-right: 16px;
+    opacity: 0.65;
+  }
+}
+
+.list {
+  margin-bottom: 10px;
+
+  .list-icon {
+    min-width: 30px;
+    padding: 4px 5px 4px 0;
+  }
+
+  .label {
+    margin-right: 16px;
+  }
+
+  .value {
+    font-weight: 500;
+  }
+}

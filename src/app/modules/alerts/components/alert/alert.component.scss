@@ -1,0 +1,129 @@
+@import 'mixins/text';
+
+:host {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  padding: 14px 16px;
+  word-break: break-word;
+
+  &.dismissed {
+    opacity: 0.6;
+  }
+
+  &::ng-deep {
+    ix-missing-access-wrapper {
+      display: inline-block;
+
+      .role-missing a + .role-missing-icon {
+        right: -15px;
+      }
+    }
+  }
+}
+
+.alert-icon {
+  cursor: default;
+  flex: 0 0 auto;
+  padding-right: 12px;
+
+  &.warn {
+    color: var(--orange);
+  }
+
+  &.accent {
+    color: var(--accent);
+  }
+
+  &.primary {
+    color: var(--primary);
+  }
+
+  &.error {
+    color: var(--red);
+  }
+}
+
+.alert-message {
+  font-size: inherit;
+  font-weight: normal;
+  line-height: inherit;
+  margin-bottom: 6px;
+  margin-top: 3px;
+
+  &.collapsed {
+    @include line-clamp(5);
+  }
+}
+
+.expand-collapse-button {
+  background-color: var(--alt-bg1);
+  cursor: pointer;
+  display: flex;
+  font-size: inherit;
+  font-weight: normal;
+  height: inherit;
+  justify-content: center;
+  line-height: inherit;
+  margin: 0 0 5px;
+  opacity: 0.9;
+  padding: 0;
+  width: max-content;
+
+  &.collapsed {
+    margin-top: -8px;
+  }
+}
+
+.alert-node {
+  font-size: 0.75rem;
+  margin-bottom: 1px;
+}
+
+.alert-level {
+  font-size: inherit;
+  font-weight: normal;
+  text-transform: uppercase;
+
+  &.warn {
+    color: var(--orange);
+  }
+
+  &.accent {
+    color: var(--accent);
+  }
+
+  &.primary {
+    color: var(--primary);
+  }
+
+  &.error {
+    color: var(--red);
+  }
+}
+
+.alert-time {
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  margin-bottom: 3px;
+}
+
+.action-link {
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+}
+
+.links {
+  display: flex;
+  gap: 18px;
+
+  > a {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}

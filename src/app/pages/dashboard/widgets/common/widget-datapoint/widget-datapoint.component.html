@@ -1,0 +1,22 @@
+<mat-card class="card">
+  <mat-card-content class="card-content">
+    <div class="header">
+      <h3>{{ label() | translate }}</h3>
+    </div>
+
+    <div
+      fittext
+      [class]="['container', size()]"
+      [modelToWatch]="text()"
+      [activateOnResize]="true"
+      [maxFontSize]="maxFontSize"
+      [minFontSize]="12"
+    >
+      <div>{{ text() | translate }}</div>
+
+      @if (subText()) {
+        <div class="sub-text">{{ subText() | translate }}</div>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,14 @@
+:host {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  gap: 4px;
+
+  .icon {
+    color: var(--yellow);
+    display: inline-flex;
+    height: 18px;
+    line-height: 1;
+    width: 18px;
+  }
+}

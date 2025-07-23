@@ -1,0 +1,93 @@
+<mat-card class="form-card">
+  <mat-card-content>
+    <form class="ix-form-container" [formGroup]="form" (submit)="onSave()">
+      @if (!hideFileInput) {
+        <ix-radio-group
+          formControlName="use_file"
+          [label]="helptext.unlock_key_file_placeholder | translate"
+          [tooltip]="helptext.unlock_key_file_tooltip | translate"
+          [options]="useFileOptions$"
+        ></ix-radio-group>
+      }
+
+      @if (useFile) {
+        <ix-checkbox
+          formControlName="unlock_children"
+          [label]="helptext.unlock_children_placeholder | translate"
+          [tooltip]="helptext.unlock_children_tooltip | translate"
+        ></ix-checkbox>
+        <ix-file-input
+          formControlName="file"
+          [label]="helptext.upload_key_file_placeholder | translate"
+          [tooltip]="helptext.upload_key_file_tooltip | translate"
+          [required]="true"
+        ></ix-file-input>
+      } @else {
+        <ix-list
+          formArrayName="datasets"
+          [empty]="form.controls.datasets.controls.length === 0"
+          [label]="'Datasets' | translate"
+          [canAdd]="false"
+          [formArray]="form.get('datasets')"
+        >
+          @for (dataset of form.controls.datasets.controls; track dataset; let i = $index) {
+            <ix-list-item
+              [formGroupName]="i"
+              [canDelete]="false"
+            >
+              <div>
+                <strong> {{'Dataset' | translate }}: </strong>
+                {{ dataset.value.name }}
+              </div>
+              @if (dataset.value.is_passphrase) {
+                <ix-input
+                  formControlName="passphrase"
+                  type="password"
+                  [label]="helptext.dataset_passphrase_placeholder | translate"
+                  [tooltip]="helptext.dataset_passphrase_tooltip | translate"
+                ></ix-input>
+              } @else {
+                <ix-textarea
+                  formControlName="key"
+                  [label]="helptext.dataset_key_placeholder | translate"
+                  [tooltip]="helptext.dataset_key_placeholder | translate"
+                ></ix-textarea>
+                <ix-file-input
+                  formControlName="file"
+                  [acceptedFiles]="'.json'"
+                ></ix-file-input>
+              }
+            </ix-list-item>
+          }
+        </ix-list>
+      }
+
+      <ix-checkbox
+        formControlName="force"
+        [label]="'Force' | translate"
+        [tooltip]="helptext.dataset_force_tooltip"
+      ></ix-checkbox>
+
+      <div class="form-actions">
+        <button
+          *ixRequiresRoles="requiredRoles"
+          mat-button
+          type="submit"
+          color="primary"
+          ixTest="save"
+          [disabled]="form.invalid || isFormLoading"
+        >
+          {{ 'Save' | translate }}
+        </button>
+        <button
+          mat-button
+          type="button"
+          ixTest="cancel"
+          (click)="goBack()"
+        >
+          {{ 'Cancel' | translate }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

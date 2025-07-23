@@ -1,0 +1,85 @@
+@import 'mixins/cards';
+@import 'scss-imports/variables';
+
+.app-logo {
+  cursor: pointer;
+  flex: 0 0 auto;
+  height: 80px;
+  margin-bottom: auto;
+  padding: 5px;
+  position: relative;
+  width: 110px;
+
+  img {
+    width: 100%;
+  }
+}
+
+.card {
+  @include details-card();
+  margin: 0;
+
+  mat-card-header {
+    button {
+      margin-left: 8px;
+    }
+  }
+
+  .actions {
+    align-items: center;
+    display: flex;
+  }
+
+  .info-container {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .details-list {
+    flex: 1;
+    width: 100%;
+  }
+
+  .details-item {
+    a.value {
+      margin-left: 0;
+    }
+
+    .value {
+      white-space: normal;
+      word-break: break-word;
+    }
+
+    &.sources {
+      .label {
+        align-self: flex-start;
+      }
+
+      .value,
+      .value .source-link {
+        white-space: normal;
+      }
+    }
+  }
+
+  .portals {
+    margin-top: 7px;
+
+    .portal-button {
+      text-transform: capitalize;
+    }
+  }
+}
+
+.source-link {
+  white-space: normal;
+  word-break: break-word;
+}
+
+.cell-status-actions {
+  @media (max-width: $breakpoint-tablet) {
+    display: inline-block;
+  }
+  display: none;
+}

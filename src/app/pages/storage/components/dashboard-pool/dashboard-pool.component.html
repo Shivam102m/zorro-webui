@@ -1,0 +1,78 @@
+@if (!isLoading()) {
+  <div>
+    <div class="pool-header">
+      <h2 class="pool-name">{{ pool()?.name }}</h2>
+      <div class="pool-actions">
+        @if (!pool()?.is_upgraded) {
+          <button
+            *ixRequiresRoles="requiredRoles"
+            mat-button
+            color="primary"
+            [ixTest]="['upgrade-pool', pool()?.name]"
+            (click)="onUpgrade()"
+          >
+            {{ 'Upgrade' | translate }}
+          </button>
+        }
+
+        <button
+          *ixRequiresRoles="requiredRoles"
+          mat-button
+          [ixTest]="['export', pool()?.name]"
+          [ixUiSearch]="searchableElements.elements.exportDisconnect"
+          (click)="onExport()"
+        >
+          {{ 'Export/Disconnect' | translate }}
+        </button>
+
+        <button
+          *ixRequiresRoles="requiredRoles"
+          mat-button
+          [ixTest]="['expand', pool()?.name]"
+          [ixUiSearch]="searchableElements.elements.expand"
+          (click)="onExpand()"
+        >
+          {{ 'Expand' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <div class="cards">
+      <ix-topology-card
+        [poolState]="pool()"
+        [disks]="disks()"
+      ></ix-topology-card>
+
+      @if (rootDataset()) {
+        <ix-pool-usage-card
+          [poolState]="pool()"
+          [rootDataset]="rootDataset()"
+        ></ix-pool-usage-card>
+      }
+
+      <ix-zfs-health-card [pool]="pool()"></ix-zfs-health-card>
+      <ix-disk-health-card
+        [poolState]="pool()"
+        [disks]="disks()"
+      ></ix-disk-health-card>
+    </div>
+  </div>
+} @else {
+  <div class="skeleton-content">
+    <div class="pool-header">
+      <ngx-skeleton-loader></ngx-skeleton-loader>
+    </div>
+    <div class="cards">
+      @for (_ of counter(4); track _) {
+        <mat-card class="card">
+          <mat-card-content>
+            @for (_ of counter(5); track _) {
+              <ngx-skeleton-loader></ngx-skeleton-loader>
+            }
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  </div>
+}
+

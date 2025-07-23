@@ -1,0 +1,8 @@
+nav {
+  margin-bottom: 16px;
+  margin-top: -32px;
+}
+
+:host ::ng-deep .mat-mdc-tab-links {
+  flex-wrap: wrap;
+}

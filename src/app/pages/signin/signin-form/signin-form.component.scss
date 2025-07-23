@@ -1,0 +1,20 @@
+.submit-button {
+  margin-top: 16px;
+  width: 100%;
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+
+  p {
+    display: inline-block;
+  }
+}
+
+input,
+button {
+  &:disabled {
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,30 @@
+@if (hasMoreThanOneSide()) {
+  @if (enclosure().front_loaded) {
+    <button
+      mat-button
+      [ixTest]="['front', 'side']"
+      (click)="onSideChange(EnclosureSide.Front)"
+    >{{ 'Front' | translate }}</button>
+  }
+  @if (enclosure().top_loaded) {
+    <button
+      mat-button
+      [ixTest]="['top', 'side']"
+      (click)="onSideChange(EnclosureSide.Top)"
+    >{{ 'Top' | translate }}</button>
+  }
+  @if (enclosure().rear_slots) {
+    <button
+      mat-button
+      [ixTest]="['rear', 'side']"
+      (click)="onSideChange(EnclosureSide.Rear)"
+    >{{ 'Rear' | translate }}</button>
+  }
+  @if (enclosure().internal_slots) {
+    <button
+      mat-button
+      [ixTest]="['internal', 'side']"
+      (click)="onSideChange(EnclosureSide.Internal)"
+    >{{ 'Internal' | translate }}</button>
+  }
+}

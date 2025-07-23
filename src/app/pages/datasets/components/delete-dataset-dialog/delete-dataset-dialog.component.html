@@ -1,0 +1,92 @@
+<h1 matDialogTitle>
+  @if (isZvol) {
+    {{ 'Delete zvol {name}' | translate: { name: dataset.name } }}
+  } @else {
+    {{ 'Delete dataset {name}' | translate: { name: dataset.name } }}
+  }
+</h1>
+<form class="ix-form-container" [formGroup]="form" (submit)="onDelete()">
+  <p [innerHTML]="deleteMessage"></p>
+
+  <div
+    mat-dialog-content
+    class="dialog-content"
+  >
+    @if (attachments.length) {
+      <div class="attachments">
+        {{ 'These services depend on dataset {name} and will be destroyed if the dataset is deleted:' | translate: { name: dataset.name } }}
+        <ul class="services">
+          @for (service of attachments; track service) {
+            <li>
+              <span class="service-name">{{ service.type }}:</span>
+              <ul class="service-attachments">
+                @for (attachment of service.attachments; track attachment) {
+                  @for (item of attachment.split(','); track item) {
+                    <li>
+                      {{ item }}
+                    </li>
+                  }
+                }
+              </ul>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+
+    @if (knownProcesses.length) {
+      <div class="known-processes">
+        {{ 'These running processes are using {datasetName}:' | translate: { datasetName: dataset.name } }}
+        <ul>
+          @for (process of knownProcesses; track process) {
+            <li>
+              {{ process.name }}
+            </li>
+          }
+        </ul>
+      </div>
+    }
+
+    @if (unknownProcesses.length) {
+      <div class="unknown-processes">
+        {{ 'These unknown processes are using the dataset:' }}
+        <ul>
+          @for (process of unknownProcesses; track process) {
+            <li>
+              {{ process.pid || ('Unknown PID' | translate) }} -
+              {{ process.cmdline?.substring(0, 40) }}
+            </li>
+          }
+        </ul>
+        <div class="process-will-be-terminated">
+          {{ 'WARNING: These unknown processes will be terminated while exporting the pool.' | translate }}
+        </div>
+      </div>
+    }
+  </div>
+
+  <p [innerHtml]="deleteDatasetHelptext.prompt | translate: { value: dataset.name }"></p>
+
+  <ix-input formControlName="confirmDatasetName"></ix-input>
+  <ix-checkbox
+    formControlName="confirm"
+    [label]="'Confirm' | translate"
+  ></ix-checkbox>
+
+  <ix-form-actions>
+    <button mat-button type="button" ixTest="cancel" [matDialogClose]="false">
+      {{ 'Cancel' | translate }}
+    </button>
+
+    <button
+      *ixRequiresRoles="requiredRoles"
+      mat-button
+      type="submit"
+      color="warn"
+      ixTest="delete-dataset"
+      [disabled]="form.invalid"
+    >
+      {{ 'Delete' | translate }} {{ isZvol ? ('Zvol' | translate) : ('Dataset' | translate) }}
+    </button>
+  </ix-form-actions>
+</form>

@@ -1,0 +1,10 @@
+@import 'scss-imports/variables';
+
+ix-table::ng-deep .details td {
+  padding-bottom: 16px !important;
+  padding-top: 16px !important;
+
+  h3 {
+    margin-bottom: 8px;
+  }
+}

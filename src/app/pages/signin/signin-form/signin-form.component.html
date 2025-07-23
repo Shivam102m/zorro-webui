@@ -1,0 +1,87 @@
+<form [formGroup]="form" (keydown.enter)="hasTwoFactor ? loginWithOtp() : login()">
+  @if (!hasTwoFactor) {
+    <ix-input
+      ixAutofocus
+      formControlName="username"
+      autocomplete="username"
+      class="username-input"
+      [prefixIcon]="iconMarker('person')"
+      [label]="'Username' | translate"
+    ></ix-input>
+
+    <ix-input
+      formControlName="password"
+      type="password"
+      autocomplete="current-password"
+      [prefixIcon]="iconMarker('mdi-lock')"
+      [label]="'Password' | translate"
+    ></ix-input>
+
+    @if (showSecurityWarning) {
+      <ix-insecure-connection></ix-insecure-connection>
+    }
+
+    <button
+      class="submit-button"
+      mat-button
+      type="button"
+      color="primary"
+      ixTest="log-in"
+      [disabled]="isFormDisabled()"
+      (click)="login()"
+    >
+      {{ 'Log In' | translate }}
+    </button>
+    @if (isLastLoginAttemptFailed) {
+      <div class="error">
+        <p>{{ lastLoginError }}</p>
+      </div>
+    }
+  }
+  @if (hasTwoFactor) {
+    <p>
+      {{ '2FA has been configured for this account. Enter the OTP to continue.' | translate }}
+    </p>
+
+    <ix-input
+      ixAutofocus
+      formControlName="otp"
+      autocomplete="one-time-code"
+      [prefixIcon]="iconMarker('phonelink')"
+      [label]="'Two-Factor Authentication Code' | translate"
+      [required]="true"
+    ></ix-input>
+
+    @if (showSecurityWarning) {
+      <ix-insecure-connection></ix-insecure-connection>
+    }
+
+    <div>
+      <button
+        class="submit-button"
+        mat-button
+        type="button"
+        color="primary"
+        ixTest="log-in"
+        [disabled]="isFormDisabled()"
+        (click)="loginWithOtp()"
+      >
+        {{ 'Proceed' | translate }}
+      </button>
+      <button
+        class="submit-button"
+        mat-button
+        type="button"
+        ixTest="otp-log-in"
+        [disabled]="isFormDisabled()"
+        (click)="cancelOtpLogin()"
+      >{{ 'Cancel' | translate }}</button>
+    </div>
+
+    @if (isLastOtpAttemptFailed) {
+      <div class="error">
+        <p>{{ lastLoginError }}</p>
+      </div>
+    }
+  }
+</form>

@@ -1,0 +1,40 @@
+<ix-modal-header
+  [requiredRoles]="requiredRoles"
+  [title]="'System Security' | translate"
+></ix-modal-header>
+
+<mat-card class="card">
+  <mat-card-content>
+    <form class="ix-form-container" [formGroup]="form" (submit)="onSubmit()">
+      <ix-slide-toggle
+        formControlName="enable_fips"
+        color="primary"
+        [label]="'Enable FIPS' | translate"
+        [tooltip]="'Enforce the use of FIPS 140-2 compliant algorithms' | translate"
+      ></ix-slide-toggle>
+
+      <ix-slide-toggle
+        formControlName="enable_gpos_stig"
+        color="primary"
+        [label]="'Enable General Purpose OS STIG compatibility mode' | translate"
+        [tooltip]="'Enable this mode to enhance system security to meet US federal government security requirements. Note that enabling STIG mode will restrict some functionality.' | translate"
+      ></ix-slide-toggle>
+
+      <mat-hint>{{ 'Global Two-Factor Authentication must be enabled to activate this feature.' | translate }}</mat-hint>
+      <mat-hint>{{ 'Restart is required after changing these settings.' | translate }}</mat-hint>
+
+      <div class="form-actions">
+        <button
+          *ixRequiresRoles="requiredRoles"
+          mat-button
+          type="submit"
+          color="primary"
+          ixTest="save"
+          [disabled]="!form.valid"
+        >
+          {{ 'Save' | translate }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

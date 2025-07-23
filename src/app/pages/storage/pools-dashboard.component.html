@@ -1,0 +1,64 @@
+<ix-page-header>
+  <button
+    *ixRequiresRoles="requiredRoles"
+    ixTest="import-pool"
+    mat-button
+    [ixUiSearch]="searchableElements.elements.importPool"
+    (click)="onImportPool()"
+  >
+    {{ 'Import Pool' | translate }}
+  </button>
+
+  <a mat-button ixTest="disks" [routerLink]="['/storage', 'disks']">
+    {{ 'Disks' | translate }}
+  </a>
+
+  <a
+    *ixRequiresRoles="requiredRoles"
+    mat-button
+    color="primary"
+    ixTest="create-pool"
+    [ixUiSearch]="searchableElements.elements.createPool"
+    [routerLink]="['/storage', 'create']"
+  >
+    {{ 'Create Pool' | translate }}
+  </a>
+</ix-page-header>
+
+<div [ixUiSearch]="searchableElements.elements.storageDashboard">
+  @if (arePoolsLoading) {
+    <ix-dashboard-pool
+      class="pool"
+      [isLoading]="true"
+    ></ix-dashboard-pool>
+
+    <ix-dashboard-pool
+      class="pool"
+      [isLoading]="true"
+    ></ix-dashboard-pool>
+  }
+
+  @if (isEmptyPools && !arePoolsLoading) {
+    <div class="entity-empty-wrapper">
+      <ix-empty [conf]="entityEmptyConf" [requiredRoles]="requiredRoles"></ix-empty>
+    </div>
+  }
+
+  @if (!isEmptyPools && !arePoolsLoading) {
+    @if (!isEmptyPools) {
+      <ix-unused-resources
+        [pools]="pools$ | async"
+      ></ix-unused-resources>
+    }
+
+    @for (pool of pools$ | async; track pool; let i = $index) {
+      <ix-dashboard-pool
+        class="pool"
+        [pool]="pool"
+        [disks]="getDisksForPool(pool)"
+        [isLoading]="!!(areDisksLoading$ | async)"
+        [rootDataset]="rootDatasets[pool.name]"
+      ></ix-dashboard-pool>
+    }
+  }
+</div>

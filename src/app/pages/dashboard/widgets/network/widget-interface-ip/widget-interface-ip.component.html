@@ -1,0 +1,8 @@
+<div class="wrapper">
+  <ix-widget-datapoint
+    *ixWithLoadingState="ips() as ips"
+    [size]="size()"
+    [label]="widgetName() | translate"
+    [text]="ips"
+  ></ix-widget-datapoint>
+</div>

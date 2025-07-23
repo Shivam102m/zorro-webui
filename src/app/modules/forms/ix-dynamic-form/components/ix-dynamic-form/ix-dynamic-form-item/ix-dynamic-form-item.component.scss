@@ -1,0 +1,37 @@
+:host ::ng-deep {
+  ix-list.form-error {
+    padding: 0 10px;
+  }
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: var(--disabled-opacity);
+  pointer-events: none;
+}
+
+.indent {
+  padding-left: 16px;
+}
+
+.label {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.label-wrapper {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.label-tooltip {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  justify-content: center;
+}

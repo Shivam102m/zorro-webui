@@ -1,0 +1,9 @@
+<form [formGroup]="form">
+  <ix-select
+    class="half-width"
+    formControlName="interface"
+    [label]="'Interface' | translate"
+    [options]="networkInterfaceOptions$"
+    [required]="true"
+  ></ix-select>
+</form>

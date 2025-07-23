@@ -1,0 +1,10 @@
+@import 'mixins/cards';
+
+.card {
+  @include details-card();
+
+  ix-copy-button {
+    height: 24px;
+    width: 24px;
+  }
+}

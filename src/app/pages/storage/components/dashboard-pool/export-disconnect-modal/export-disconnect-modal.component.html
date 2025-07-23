@@ -1,0 +1,139 @@
+<h1 mat-dialog-title class="export-disconnect-modal-title">
+  {{ 'Export/disconnect pool: {pool}' | translate: { pool: pool.name } }}
+</h1>
+
+@if (isFormLoading) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
+
+<form
+  class="ix-form-container"
+  [formGroup]="form"
+  (submit)="startExportDisconnectJob()"
+>
+  <div mat-dialog-content class="export-disconnect-modal-content">
+    <div class="warnings-block">
+      @if (showSysDatasetWarning) {
+        <p
+          class="full-width"
+          [innerHTML]="helptext.exportDialog.warningSysDataset | translate"
+        ></p>
+      }
+
+      @if (showPoolDetachWarning) {
+        <p
+          class="full-width"
+          [innerHTML]="helptext.exportDialog.warning | translate: { pool: pool.name }"
+        ></p>
+      }
+
+      @if (showUnknownStatusDetachWarning) {
+        <p
+          class="full-width"
+          [innerHTML]="helptext.exportDialog.unknownState | translate: { pool: pool.name }"
+        ></p>
+      }
+    </div>
+
+    @if (attachments.length || process.knownProcesses.length || process.unknownProcesses.length) {
+      <div class="full-width pool-summary">
+        @if (attachments.length) {
+          <div class="attachments">
+            {{ 'These services depend on pool {name} and will be disrupted if the pool is detached:' | translate: { name: pool.name } }}
+            <ul class="services">
+              @for (service of attachments; track service) {
+                <li>
+                  <span class="service-name">{{ service.type }}:</span>
+                  <ul class="service-attachments">
+                    @for (attachment of service.attachments; track attachment) {
+                      @for (item of attachment.split(','); track item) {
+                        <li> {{ item }}</li>
+                      }
+                    }
+                  </ul>
+                </li>
+              }
+            </ul>
+          </div>
+        }
+
+        @if (process.knownProcesses.length) {
+          <div class="known-processes">
+            {{ 'These running processes are using {name}:' | translate: { name: pool.name } }}
+            <ul>
+              @for (process of process.knownProcesses; track process) {
+                <li> {{ process.name }}</li>
+              }
+            </ul>
+          </div>
+        }
+
+        @if (process.unknownProcesses.length) {
+          <div class="unknown-processes">
+            {{ 'These unknown processes are using the pool:' | translate }}
+            <ul>
+              @for (process of process.unknownProcesses; track process) {
+                <li>
+                  {{ process.pid || ('Unknown PID' | translate) }} -
+                  {{ process.cmdline?.substring(0, 40) }}
+                </li>
+              }
+            </ul>
+            <div class="process-will-be-terminated">
+              {{ 'WARNING: These unknown processes will be terminated while exporting the pool.' | translate }}
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <ix-fieldset>
+      <ix-checkbox
+        formControlName="destroy"
+        [label]="helptext.exportDialog.destroy.label | translate"
+        [tooltip]="helptext.exportDialog.destroy.tooltip | translate"
+      ></ix-checkbox>
+
+      <ix-checkbox
+        formControlName="cascade"
+        [label]="helptext.exportDialog.cascade.label | translate"
+        [tooltip]="helptext.exportDialog.cascade.tooltip | translate"
+      ></ix-checkbox>
+
+      <ix-checkbox
+        formControlName="confirm"
+        [label]="confirmLabelText"
+        [required]="true"
+      ></ix-checkbox>
+
+      @if (form.value.destroy) {
+        <ix-input
+          formControlName="nameInput"
+          [label]="helptext.exportDialog.enterName | translate: { pool: pool.name }"
+        ></ix-input>
+      }
+    </ix-fieldset>
+  </div>
+
+  <ix-form-actions>
+    <button
+      type="button"
+      mat-button
+      name="cancel_button"
+      ixTest="cancel"
+      (click)="cancel()"
+    >
+      {{ 'Cancel' | translate }}
+    </button>
+    <button
+      *ixRequiresRoles="[Role.PoolWrite]"
+      type="submit"
+      mat-button
+      ixTest="disconnect"
+      [color]="form.value.destroy ? 'warn' : 'primary'"
+      [disabled]="form.invalid || isFormLoading"
+    >
+      {{ 'Export/Disconnect' | translate }}
+    </button>
+  </ix-form-actions>
+</form>

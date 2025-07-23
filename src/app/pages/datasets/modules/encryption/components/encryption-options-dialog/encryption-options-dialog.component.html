@@ -1,0 +1,83 @@
+<h1 matDialogTitle>
+  {{ 'Edit Encryption Options for {dataset}' | translate: { dataset: data.dataset.id } }}
+</h1>
+<form class="ix-form-container" [formGroup]="form" (submit)="onSubmit()">
+  @if (canInherit) {
+    <ix-checkbox
+      formControlName="inherit_encryption"
+      [label]="'Inherit encryption properties from parent' | translate"
+    ></ix-checkbox>
+  }
+
+  @if (!(isInheriting$ | async)) {
+    <ix-select
+      formControlName="encryption_type"
+      [label]="'Encryption Type' | translate"
+      [tooltip]="tooltips.encryption_type | translate"
+      [options]="encryptionTypeOptions$"
+      [required]="true"
+    ></ix-select>
+    @if (isKey$ | async) {
+      <ix-checkbox
+        formControlName="generate_key"
+        [label]="'Generate Key' | translate"
+        [tooltip]="tooltips.generate_key | translate"
+      ></ix-checkbox>
+
+      @if (!(isSetToGenerateKey$ | async)) {
+        <ix-textarea
+          formControlName="key"
+          [label]="'Key' | translate"
+          [required]="true"
+          [tooltip]="tooltips.key | translate"
+        ></ix-textarea>
+      }
+    } @else {
+      <ix-input
+        formControlName="passphrase"
+        type="password"
+        [label]="'Passphrase' | translate"
+        [tooltip]="tooltips.passphrase | translate"
+      ></ix-input>
+
+      <ix-input
+        formControlName="confirm_passphrase"
+        type="password"
+        [label]="'Confirm Passphrase' | translate"
+      ></ix-input>
+
+      <ix-input
+        formControlName="pbkdf2iters"
+        type="number"
+        [label]="'pbkdf2iters' | translate"
+        [tooltip]="tooltips.pbkdf2iters | translate"
+      ></ix-input>
+    }
+  }
+  <ix-input
+    formControlName="algorithm"
+    [label]="'Algorithm' | translate"
+  ></ix-input>
+
+  <ix-checkbox
+    formControlName="confirm"
+    [label]="'Confirm' | translate"
+  ></ix-checkbox>
+
+  <ix-form-actions>
+    <button mat-button type="button" ixTest="cancel" [matDialogClose]="false">
+      {{ 'Cancel' | translate }}
+    </button>
+
+    <button
+      *ixRequiresRoles="[Role.DatasetWrite]"
+      mat-button
+      type="submit"
+      color="primary"
+      ixTest="save"
+      [disabled]="form.invalid"
+    >
+      {{ 'Save' | translate }}
+    </button>
+  </ix-form-actions>
+</form>

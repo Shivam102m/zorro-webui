@@ -1,0 +1,110 @@
+<dl class="details">
+  <div class="details-row">
+    <dt>{{ 'Used' | translate }}:</dt>
+    @if (isLoading) {
+      <ngx-skeleton-loader></ngx-skeleton-loader>
+    } @else {
+      <dd>
+        @if (snapshotInfo?.properties?.used?.parsed) {
+          {{ +snapshotInfo.properties.used.parsed | ixFileSize }}
+        } @else {
+          {{ 'N/A' | translate }}
+        }
+      </dd>
+    }
+  </div>
+  <div class="details-row">
+    <dt>{{ 'Date created' | translate }}:</dt>
+    @if (isLoading) {
+      <ngx-skeleton-loader></ngx-skeleton-loader>
+    } @else {
+      <dd>
+        @if (snapshotInfo?.properties?.creation?.parsed?.$date) {
+          {{ snapshotInfo.properties.creation.parsed.$date | formatDateTime }}
+        } @else {
+          {{ 'N/A' | translate }}
+        }
+      </dd>
+    }
+  </div>
+  <div class="details-row">
+    <dt>{{ 'Referenced' | translate }}:</dt>
+    @if (isLoading) {
+      <ngx-skeleton-loader></ngx-skeleton-loader>
+    } @else {
+      <dd>
+        @if (snapshotInfo?.properties?.referenced?.parsed) {
+          {{ +snapshotInfo.properties.referenced.parsed | ixFileSize }}
+        } @else {
+          {{ 'N/A' | translate }}
+        }
+      </dd>
+    }
+  </div>
+  <div class="details-row">
+    <dt>{{ 'Retention' | translate }}:</dt>
+    @if (isLoading) {
+      <ngx-skeleton-loader></ngx-skeleton-loader>
+    } @else {
+      <dd>
+        @if (snapshotInfo?.retention?.datetime?.$date) {
+          @if (snapshotInfo?.retention?.periodic_snapshot_task_id) {
+            {{ 'Will be automatically destroyed at {datetime} by periodic snapshot task' | translate:
+            { datetime: snapshotInfo.retention.datetime.$date | formatDateTime } }}
+          }
+          @if (!snapshotInfo?.retention?.periodic_snapshot_task_id) {
+            {{ 'Is planned to be automatically destroyed at {datetime}' | translate:
+            { datetime: snapshotInfo.retention.datetime.$date | formatDateTime } }}
+          }
+        }
+        @if (!snapshotInfo?.retention?.datetime?.$date) {
+          {{ 'Will not be destroyed automatically' | translate }}
+        }
+      </dd>
+    }
+  </div>
+  <ng-container *ixRequiresRoles="requiredRoles">
+    <ix-checkbox
+      [formControl]="holdControl"
+      [label]="'Hold' | translate"
+    ></ix-checkbox>
+  </ng-container>
+</dl>
+
+<mat-divider></mat-divider>
+
+<div class="actions">
+  <button
+    *ixRequiresRoles="requiredRoles"
+    mat-button
+    [ixTest]="['clone', snapshot().snapshot_name]"
+    (click)="doClone(snapshot())"
+  >
+    {{ 'Clone To New Dataset' | translate }}
+  </button>
+
+  <button
+    *ixRequiresRoles="requiredRoles"
+    mat-button
+    [ixTest]="['rollback', snapshot().snapshot_name]"
+    (click)="doRollback(snapshot())"
+  >
+    {{ 'Rollback' | translate }}
+  </button>
+
+  <span
+    [matTooltip]="'Snapshots must not have dependent clones' | translate"
+    [matTooltipDisabled]="!hasClones"
+  >
+    <button
+      *ixRequiresRoles="requiredRoles"
+      mat-button
+      [ixTest]="['delete', snapshot().snapshot_name]"
+      [disabled]="hasClones"
+      (click)="doDelete(snapshot())"
+    >
+      {{ 'Delete' | translate }}
+    </button>
+  </span>
+</div>
+

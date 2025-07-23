@@ -1,0 +1,80 @@
+<mat-card class="card" [ixUiSearch]="searchableElements.elements.diskHealth">
+  <mat-card-header>
+    <h3 mat-card-title>
+      {{ 'Disk Health' | translate }}
+      <ix-pool-card-icon [type]="iconType" [tooltip]="iconTooltip"></ix-pool-card-icon>
+    </h3>
+
+    <a
+      mat-button
+      ixTest="manage-disks"
+      [routerLink]="['/storage', 'disks']"
+    >
+      {{ 'Manage Disks' | translate }}
+    </a>
+  </mat-card-header>
+
+  <mat-card-content class="content">
+    <div class="details-item">
+      <div class="label">
+        {{ 'Disks temperature related alerts' | translate }}:
+      </div>
+      <div class="value">
+        {{ diskState.alerts | number }}
+      </div>
+    </div>
+
+    <div class="details-item">
+      <div class="label">{{ 'Highest Temperature' | translate }}:</div>
+      <div class="value">
+        @if (isHighestTempReady) {
+          {{ diskState.highestTemperature | number }}
+          {{ diskState.unit }}
+        } @else {
+          {{ 'No Data' | translate }}
+        }
+      </div>
+    </div>
+
+    <div class="details-item">
+      <div class="label">{{ 'Lowest Temperature' | translate }}:</div>
+      <div class="value">
+        @if (isLowestTempReady) {
+          {{ diskState.lowestTemperature | number }}
+          {{ diskState.unit }}
+        } @else {
+          {{ 'No Data' | translate }}
+        }
+      </div>
+    </div>
+
+    <div class="details-item">
+      <div class="label">{{ 'Average Disk Temperature' | translate }}:</div>
+      <div class="value">
+        @if (isAverageTempReady) {
+          {{ diskState.averageTemperature | number }}
+          {{ diskState.unit }}
+        } @else {
+          {{ 'No Data' | translate }}
+        }
+      </div>
+      <a
+        ixTest="view-reports"
+        [routerLink]="['/reportsdashboard', 'disk']"
+        [queryParams]="{ disks: disksNames }"
+      >
+        {{ 'View Reports' | translate }}
+      </a>
+    </div>
+
+    <div class="details-item">
+      <a
+        ixTest="view-all-smart-tests"
+        [routerLink]="['/storage', 'disks', 'smartresults', SmartTestResultPageType.Pool, poolState().name]"
+      >
+        {{ 'View S.M.A.R.T. Tests' | translate }}
+      </a>
+    </div>
+
+  </mat-card-content>
+</mat-card>

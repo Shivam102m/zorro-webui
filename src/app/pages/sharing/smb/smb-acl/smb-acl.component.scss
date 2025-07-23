@@ -1,0 +1,20 @@
+:host ::ng-deep {
+  ix-select {
+    margin-top: 0;
+  }
+}
+
+mat-card {
+  overflow: hidden !important;
+}
+
+.entry-row {
+  column-gap: 10px;
+  display: flex;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  > * {
+    flex: 1;
+  }
+}

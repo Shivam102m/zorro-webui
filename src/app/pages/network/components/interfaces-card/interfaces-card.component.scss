@@ -1,0 +1,11 @@
+.interfaces-table {
+  ::ng-deep tr td:first-child,
+  ::ng-deep tr th:first-child {
+    width: 30px;
+  }
+
+  ix-interface-status-icon {
+    display: block;
+    margin-left: 3px;
+  }
+}

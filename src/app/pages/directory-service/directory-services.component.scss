@@ -1,0 +1,84 @@
+@import 'scss-imports/cssvars';
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+:host ::ng-deep {
+  ix-missing-access-wrapper button {
+    width: 100%;
+  }
+}
+
+.everything-disabled {
+  .actions {
+    justify-content: center;
+  }
+
+  button {
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.advanced-settings {
+  display: block;
+  margin-top: 50px;
+
+  &.expanded {
+    .advanced-settings-cards {
+      display: grid;
+    }
+  }
+
+  .advanced-settings-cards {
+    display: none;
+  }
+
+  .header {
+    color: var(--fg1);
+    cursor: pointer;
+    margin-bottom: 10px;
+    margin-left: 7px;
+
+    button {
+      margin-left: 5px;
+    }
+  }
+}
+
+.services,
+.advanced-settings-cards {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: fit-content(30vh);
+
+  @media #{$media-lt-lg} {
+    grid-template-columns: 100%;
+  }
+
+  @media #{$media-lt-sm} {
+    display: block !important;
+  }
+
+  mat-card {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+  }
+}
+
+.card-list-item .value {
+  word-break: break-all;
+}
+
+.empty-message p {
+  margin-bottom: 0.7rem;
+  margin-top: 0.7rem;
+}
+
+ix-empty {
+  text-align: center;
+}

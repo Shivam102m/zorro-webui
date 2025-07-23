@@ -1,0 +1,106 @@
+<form [formGroup]="form">
+  <ix-fieldset
+    class="general-fields"
+    [title]="'Access Control Entry' | translate"
+  >
+    <ix-select
+      formControlName="tag"
+      [label]="'Who' | translate"
+      [tooltip]="tooltips.tag | translate"
+      [options]="tags$"
+      [required]="true"
+    ></ix-select>
+
+    @if (isUserTag) {
+      <ix-combobox
+        formControlName="user"
+        [label]="'User' | translate"
+        [tooltip]="tooltips.user | translate"
+        [provider]="userProvider"
+        [allowCustomValue]="true"
+        [required]="true"
+      ></ix-combobox>
+    }
+
+    @if (isGroupTag) {
+      <ix-combobox
+        formControlName="group"
+        [label]="'Group' | translate"
+        [tooltip]="tooltips.group | translate"
+        [provider]="groupProvider"
+        [allowCustomValue]="true"
+        [required]="true"
+      ></ix-combobox>
+    }
+
+    <ix-radio-group
+      formControlName="type"
+      inlineFieldFlex="25%"
+      [label]="'ACL Type' | translate"
+      [tooltip]="tooltips.type | translate"
+      [required]="true"
+      [options]="aclTypes$"
+      [inlineFields]="true"
+    ></ix-radio-group>
+  </ix-fieldset>
+
+  <div class="permissions-and-flags">
+    <ix-fieldset [title]="'Permissions' | translate">
+      <ix-radio-group
+        formControlName="permissionType"
+        [label]="'Permissions Type' | translate"
+        [tooltip]="tooltips.permissionType | translate"
+        [required]="true"
+        [options]="permissionTypes$"
+        [inlineFields]="true"
+      ></ix-radio-group>
+      @if (arePermissionsBasic) {
+        <ix-select
+          formControlName="basicPermission"
+          [label]="'Permissions' | translate"
+          [tooltip]="tooltips.basicPermission | translate"
+          [required]="true"
+          [options]="basicPermissions$"
+        ></ix-select>
+      }
+      @if (!arePermissionsBasic) {
+        <ix-checkbox-list
+          formControlName="advancedPermissions"
+          [label]="'Permissions' | translate"
+          [tooltip]="tooltips.advancedPermissions | translate"
+          [options]="advancedPermissions$"
+          [inlineFields]="true"
+        ></ix-checkbox-list>
+      }
+    </ix-fieldset>
+    <ix-fieldset [title]="'Flags' | translate">
+      <ix-radio-group
+        formControlName="flagsType"
+        [label]="'Flags Type' | translate"
+        [tooltip]="tooltips.flagsType | translate"
+        [required]="true"
+        [options]="flagTypes$"
+        [inlineFields]="true"
+      ></ix-radio-group>
+      @if (areFlagsBasic) {
+        <ix-radio-group
+          formControlName="basicFlag"
+          [label]="'Flags' | translate"
+          [tooltip]="tooltips.basicFlag | translate"
+          [required]="true"
+          [options]="basicFlags$"
+          [inlineFields]="true"
+        ></ix-radio-group>
+      }
+      @if (!areFlagsBasic) {
+        <ix-checkbox-list
+          formControlName="advancedFlags"
+          [label]="'Flags' | translate"
+          [tooltip]="tooltips.advancedFlags | translate"
+          [options]="advancedFlags$"
+          [inlineFields]="true"
+        ></ix-checkbox-list>
+      }
+    </ix-fieldset>
+  </div>
+</form>

@@ -1,0 +1,36 @@
+<button
+  name="Power"
+  mat-icon-button
+  class="topbar-button-right"
+  ixTest="power-menu"
+  [matTooltip]="tooltips.power | translate"
+  [matMenuTriggerFor]="powerMenu"
+  [ixUiSearch]="searchableElements.elements.powerMenu"
+>
+  <ix-icon name="power_settings_new"></ix-icon>
+</button>
+<mat-menu #powerMenu="matMenu">
+  <button
+    *ixRequiresRoles="requiredRoles"
+    name="power-restart"
+    mat-menu-item
+    ixTest="restart"
+    [ixUiSearch]="searchableElements.elements.restart"
+    (click)="onReboot()"
+  >
+    <ix-icon name="replay"></ix-icon>
+    {{ 'Restart' | translate }}
+  </button>
+
+  <button
+    *ixRequiresRoles="requiredRoles"
+    name="power-shut-down"
+    mat-menu-item
+    ixTest="shut-down"
+    [ixUiSearch]="searchableElements.elements.shutDown"
+    (click)="onShutdown()"
+  >
+    <ix-icon name="power_settings_new"></ix-icon>
+    {{ 'Shut Down' | translate }}
+  </button>
+</mat-menu>

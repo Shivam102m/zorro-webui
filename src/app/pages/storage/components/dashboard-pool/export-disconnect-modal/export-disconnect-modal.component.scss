@@ -1,0 +1,18 @@
+@import 'scss-imports/variables';
+
+:host {
+  display: block;
+  width: 550px;
+
+  @media (max-width: $breakpoint-tablet) {
+    width: inherit;
+  }
+}
+
+.export-disconnect-modal-content {
+  overflow: auto !important;
+}
+
+.export-disconnect-modal-title {
+  overflow-wrap: break-word;
+}

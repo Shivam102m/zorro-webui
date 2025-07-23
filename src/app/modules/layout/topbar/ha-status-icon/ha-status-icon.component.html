@@ -1,0 +1,22 @@
+@if ((isFailoverLicensed$ | async) && statusText) {
+  <button
+    mat-icon-button
+    id="ha"
+    class="topbar-button-right"
+    [ixTest]="isDisabled ? 'ha-indicator-disabled' : 'ha-indicator-enabled'"
+    [matTooltip]="statusText | translate"
+    (click)="showHaPopover()"
+  >
+    @switch (true) {
+      @case (isReconnecting) {
+        <ix-icon name="ix-ha-reconnecting"></ix-icon>
+      }
+      @case (isDisabled) {
+        <ix-icon name="ix-ha-disabled"></ix-icon>
+      }
+      @default {
+        <ix-icon name="ix-ha-enabled"></ix-icon>
+      }
+    }
+  </button>
+}

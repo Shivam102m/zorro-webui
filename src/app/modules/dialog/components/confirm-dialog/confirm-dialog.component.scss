@@ -1,0 +1,33 @@
+:host {
+  display: block;
+  min-width: 330px;
+}
+
+.confirm-checkbox {
+  margin-left: -10px;
+  margin-right: auto;
+  padding-right: 10px;
+}
+
+.secondary-checkbox {
+  margin-top: 5px;
+}
+
+#confirm-label:hover {
+  cursor: pointer;
+}
+
+h1 {
+  margin-bottom: 1px !important;
+}
+
+#confirm-msg {
+  padding-top: 20px;
+}
+
+div.message-content {
+  max-height: 300px;
+  overflow-x: unset;
+  overflow-y: auto;
+  word-wrap: break-word;
+}

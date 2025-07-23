@@ -1,0 +1,20 @@
+/* CSS Vars */
+:root {
+  --contrast-darker: hsl(0, 0%, 10.7%); // default theme fallback
+  --contrast-darkest: hsl(0, 0%, 5.7%); // default theme fallback
+  --contrast-lighter: hsl(0, 0%, 20.7%); // default theme fallback
+  --contrast-lightest: hsl(0, 0%, 25.7%); // default theme fallback
+  --light-theme-lines: var(--contrast-darkest);
+  --dark-theme-lines: var(--contrast-lighter);
+  --disabled-opacity: 0.5;
+  --lines: var(--dark-theme-lines);
+  --error: #f44336;
+  --sidenav-width: 240px;
+  --btn-default-bg: var(--alt-bg2);
+  --hover-bg: var(--lines) !important;
+  --primary-lighter: var(--primary);
+  --font-family-header: 'Titillium Web', sans-serif;
+  --font-family-body: 'IBM Plex Sans', 'Helvetica Neue', sans-serif;
+  --font-family-monospace: 'Inconsolata', 'Courier New', Courier, monospace;
+  --primary-txt: #fff;
+}

@@ -1,0 +1,40 @@
+<ng-container [formGroup]="form">
+  <ix-input
+    formControlName="name"
+    [label]="'Name' | translate"
+    [required]="true"
+    [readonly]="isAddingVdevs()"
+  ></ix-input>
+
+  @if (!isAddingVdevs()) {
+    <ix-checkbox
+      formControlName="encryption"
+      [label]="'Encryption' | translate"
+    ></ix-checkbox>
+  }
+
+  @if (form.controls.encryption.value && !isAddingVdevs()) {
+    <ix-select
+      formControlName="encryptionStandard"
+      [label]="'Encryption Standard' | translate"
+      [options]="encryptionAlgorithmOptions$"
+      [required]="true"
+    ></ix-select>
+  }
+
+  <ix-pool-warnings></ix-pool-warnings>
+
+  <ix-form-actions>
+    <div class="step-buttons">
+      <button
+        mat-button
+        matStepperNext
+        color="primary"
+        type="button"
+        ixTest="next-general"
+      >
+        {{ 'Next' | translate }}
+      </button>
+    </div>
+  </ix-form-actions>
+</ng-container>

@@ -1,0 +1,80 @@
+@import 'mixins/text';
+
+:host {
+  background-color: var(--bg2);
+  color: var(--fg2);
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  padding: 20px 25px 15px 10px;
+  position: relative;
+  transition: 50ms background-color;
+}
+
+:host-context(a:focus) :host {
+  outline: var(--primary) auto 1px;
+}
+
+:host-context(a:hover) :host {
+  background-color: var(--contrast-lighter);
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  justify-content: space-between;
+  padding-left: 2px;
+
+  .train {
+    background-color: var(--bg1);
+    border: 1px solid var(--lines);
+    color: var(--primary);
+    font-family: var(--font-family-header);
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 15px;
+    padding: 0 10px;
+    text-align: center;
+  }
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-left: 16px;
+
+  .header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+
+    .name {
+      color: var(--fg1);
+      font-family: var(--font-family-header);
+      font-size: 1.3em;
+      line-height: 1.3em;
+      margin-top: 1px;
+      text-transform: capitalize;
+    }
+  }
+
+  .description {
+    @include line-clamp(4);
+    font-size: 1.2em;
+    line-height: 1.2em;
+    margin-bottom: 0;
+  }
+
+  .meta {
+    align-items: center;
+    color: var(--fg2);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2px;
+    margin-top: auto;
+    opacity: 0.7;
+  }
+}

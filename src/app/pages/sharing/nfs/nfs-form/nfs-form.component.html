@@ -1,0 +1,160 @@
+<ix-modal-header
+  [requiredRoles]="requiredRoles"
+  [title]="title"
+  [loading]="isLoading"
+></ix-modal-header>
+
+<mat-card>
+  <mat-card-content>
+    <form class="ix-form-container" [formGroup]="form" (submit)="onSubmit()">
+      <ix-fieldset [title]="'Path' | translate">
+        <ix-explorer
+          formControlName="path"
+          [required]="true"
+          [label]="'Path' | translate"
+          [tooltip]="helptext.tooltip_path | translate"
+          [nodeProvider]="treeNodeProvider"
+          [canCreateDataset]="isNew"
+          [createDatasetProps]="createDatasetProps"
+        ></ix-explorer>
+      </ix-fieldset>
+
+      <ix-fieldset [title]="'General Options' | translate">
+        <ix-input
+          formControlName="comment"
+          [label]="'Description' | translate"
+          [tooltip]="helptext.tooltip_comment | translate"
+        ></ix-input>
+
+        <ix-checkbox
+          formControlName="enabled"
+          [label]="'Enabled' | translate"
+          [tooltip]="helptext.tooltip_enabled | translate"
+        ></ix-checkbox>
+
+        @if (isEnterprise()) {
+          <ix-checkbox
+            formControlName="expose_snapshots"
+            [label]="'Expose Snapshots' | translate"
+            [tooltip]="helptext.tooltip_expose_snapshots | translate"
+          ></ix-checkbox>
+        }
+      </ix-fieldset>
+
+      @if (isAdvancedMode) {
+        <ix-fieldset [title]="'Access' | translate">
+          <ix-checkbox
+            formControlName="ro"
+            [label]="'Read Only' | translate"
+            [tooltip]="helptext.tooltip_ro | translate"
+          ></ix-checkbox>
+
+          <ix-combobox
+            formControlName="maproot_user"
+            [label]="'Maproot User' | translate"
+            [tooltip]="helptext.tooltip_maproot_user | translate"
+            [provider]="userProvider"
+          ></ix-combobox>
+
+          <ix-combobox
+            formControlName="maproot_group"
+            [label]="'Maproot Group' | translate"
+            [tooltip]="helptext.tooltip_maproot_group | translate"
+            [provider]="groupProvider"
+          ></ix-combobox>
+
+          <ix-combobox
+            formControlName="mapall_user"
+            [label]="'Mapall User' | translate"
+            [tooltip]="helptext.tooltip_mapall_user | translate"
+            [provider]="userProvider"
+          ></ix-combobox>
+
+          <ix-combobox
+            formControlName="mapall_group"
+            [label]="'Mapall Group' | translate"
+            [tooltip]="helptext.tooltip_mapall_group | translate"
+            [provider]="groupProvider"
+          ></ix-combobox>
+
+          <ix-select
+            formControlName="security"
+            [label]="'Security' | translate"
+            [options]="securityOptions$"
+            [multiple]="true"
+            [tooltip]="helptext.tooltip_security | translate"
+          ></ix-select>
+        </ix-fieldset>
+      }
+
+      <ix-fieldset>
+        <ix-list
+          formArrayName="networks"
+          [empty]="form.controls.networks.controls.length === 0"
+          [label]="'Networks' | translate"
+          [formArray]="form.get('networks')"
+          [tooltip]="helptext.tooltip_networks_wrapper | translate"
+          (add)="addNetworkControl()"
+        >
+          @for (network of form.controls.networks.controls; track network; let i = $index) {
+            <ix-list-item
+              [label]="'Networks' | translate"
+              (delete)="removeNetworkControl(i)"
+            >
+              <ix-ip-input-with-netmask
+                [required]="true"
+                [formControlName]="i"
+                [label]="'Network' | translate"
+                [tooltip]="helptext.tooltip_network | translate"
+              ></ix-ip-input-with-netmask>
+            </ix-list-item>
+          }
+        </ix-list>
+
+        <ix-list
+          formArrayName="hosts"
+          [empty]="form.controls.hosts.controls.length === 0"
+          [label]="'Hosts' | translate"
+          [formArray]="form.get('hosts')"
+          [tooltip]="helptext.tooltip_hosts_wrapper | translate"
+          (add)="addHostControl()"
+        >
+          @for (network of form.controls.hosts.controls; track network; let i = $index) {
+            <ix-list-item
+              [label]="'Hosts' | translate"
+              (delete)="removeHostControl(i)"
+            >
+              <ix-input
+                [required]="true"
+                [formControlName]="i"
+                [label]="'Authorized Hosts and IP addresses' | translate"
+                [tooltip]="helptext.tooltip_hosts | translate"
+              ></ix-input>
+            </ix-list-item>
+          }
+        </ix-list>
+      </ix-fieldset>
+
+      <ix-form-actions>
+        <button
+          *ixRequiresRoles="requiredRoles"
+          mat-button
+          type="submit"
+          color="primary"
+          ixTest="save"
+          [disabled]="form.invalid || isLoading"
+        >
+          {{ 'Save' | translate }}
+        </button>
+
+        <button mat-button type="button" ixTest="toggle-advanced-options" (click)="toggleAdvancedMode()">
+          {{
+            isAdvancedMode
+              ? ('Basic Options' | translate)
+              : ('Advanced Options' | translate)
+          }}
+        </button>
+      </ix-form-actions>
+    </form>
+  </mat-card-content>
+</mat-card>

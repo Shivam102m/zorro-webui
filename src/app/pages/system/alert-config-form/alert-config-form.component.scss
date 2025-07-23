@@ -1,0 +1,37 @@
+@import 'scss-imports/variables';
+
+.form-card {
+  margin: 24px 0.333333rem;
+  max-width: 100%;
+  width: 100%;
+}
+
+.class-row {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 0 30px;
+
+  @media (max-width: $breakpoint-tablet) {
+    display: block;
+  }
+
+  .class-label {
+    align-items: center;
+    display: flex;
+    margin-top: 25px;
+  }
+}
+
+.mat-title {
+  align-items: center;
+  border-bottom: 1px solid var(--lines);
+  display: flex;
+  gap: 18px;
+  padding: 18px 30px;
+}
+
+.form-actions {
+  border-top: 1px solid var(--lines);
+  padding: 18px 30px;
+}

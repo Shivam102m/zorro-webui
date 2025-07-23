@@ -1,0 +1,45 @@
+<ix-page-header>
+  @if (isHaLicensed()) {
+    <ix-button-group
+      [formControl]="controllerTypeControl"
+      [label]="'Controller' | translate"
+      [options]="controllerTypeOptions$"
+      [inlineFields]="true"
+      [attr.aria-label]="'Controller Type' | translate"
+    ></ix-button-group>
+  }
+
+  <a
+    ixTest="audit-settings"
+    mat-button
+    fragment="audit-card"
+    [routerLink]="['/system/advanced']"
+  >
+    {{ 'Audit Settings' | translate }}
+  </a>
+</ix-page-header>
+
+<ix-master-detail-view
+  #masterDetailView="masterDetailViewContext"
+  [selectedItem]="dataProvider.expandedRow"
+  [ixUiSearch]="searchableElements.elements.audit"
+>
+  <ix-audit-list
+    master
+    [dataProvider]="dataProvider"
+    [isMobileView]="masterDetailView.isMobileView()"
+    (toggleShowMobileDetails)="masterDetailView.toggleShowMobileDetails($event)"
+  ></ix-audit-list>
+
+  <ng-container detail-header>
+    {{ 'Log Details' | translate }}
+  </ng-container>
+
+  <ng-container detail>
+    @if (dataProvider.expandedRow) {
+      <ix-log-details-panel
+        [log]="dataProvider.expandedRow"
+      ></ix-log-details-panel>
+    }
+  </ng-container>
+</ix-master-detail-view>

@@ -1,0 +1,68 @@
+:host {
+  color: var(--fg1);
+  display: block;
+
+  margin-bottom: 12px;
+  margin-top: 18px;
+  padding: 8px 0;
+}
+
+.input-container {
+  align-items: center;
+  display: flex;
+
+  ::ng-deep {
+    .mat-mdc-select-value {
+      padding: 0;
+    }
+
+    .mat-mdc-select-arrow-wrapper {
+      width: max-content;
+    }
+  }
+
+  input,
+  .select {
+    background: var(--bg1);
+    border: solid 1.5px var(--lines);
+    border-radius: 2px;
+    flex-direction: row;
+    font-size: 12px;
+    padding: 8.5px 8px;
+    position: relative;
+
+    &:focus-within {
+      border-color: var(--primary);
+    }
+  }
+
+  input {
+    display: flex;
+  }
+
+  .select {
+    padding: 3.5px 8px;
+    width: 64px;
+  }
+
+  .slash {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+
+  &.disabled {
+    opacity: var(--disabled-opacity);
+
+    input {
+      cursor: not-allowed;
+      opacity: 1;
+    }
+  }
+}
+
+.hint {
+  color: var(--alt-fg2);
+  font-size: x-small;
+  margin: 5px 0 0;
+  padding: 0;
+}

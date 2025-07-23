@@ -1,0 +1,18 @@
+mat-card {
+  height: 100%;
+}
+
+.card-title {
+  align-items: center;
+  display: flex;
+
+  ix-icon {
+    margin-left: 5px;
+  }
+}
+
+:host ::ng-deep {
+  .tight-actions {
+    width: 80px;
+  }
+}

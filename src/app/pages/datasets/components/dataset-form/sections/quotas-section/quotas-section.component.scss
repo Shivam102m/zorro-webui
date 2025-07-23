@@ -1,0 +1,34 @@
+@import 'scss-imports/variables';
+
+.columns {
+  column-gap: 15px;
+  display: flex;
+  flex-direction: row;
+
+  @media (max-width: $breakpoint-tablet) {
+    display: block;
+  }
+
+  > * {
+    flex: 1;
+
+    @media (max-width: $breakpoint-tablet) {
+      width: 100%;
+    }
+  }
+}
+
+.with-inherit-field {
+  align-items: center;
+  column-gap: 15px;
+  display: flex;
+  flex-direction: row;
+
+  > * {
+    flex: 1;
+  }
+
+  ix-checkbox {
+    margin-top: 25px;
+  }
+}

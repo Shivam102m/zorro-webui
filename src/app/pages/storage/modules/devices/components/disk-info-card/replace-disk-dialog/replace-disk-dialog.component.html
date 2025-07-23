@@ -1,0 +1,44 @@
+<h1 matDialogTitle>
+  {{ 'Replacing disk {name}' | translate: { name: data.diskName } }}
+</h1>
+<form class="ix-form-container" [formGroup]="form" (submit)="onSubmit()">
+  <ix-unused-disk-select
+    formControlName="replacement"
+    valueField="identifier"
+    [label]="'Member Disk' | translate"
+    [required]="true"
+    [tooltip]="helptext.dialogFormFields.disk.tooltip | translate"
+  ></ix-unused-disk-select>
+
+  <ix-checkbox
+    formControlName="preserve_settings"
+    [label]="'Preserve Power Management and S.M.A.R.T. settings' | translate"
+  ></ix-checkbox>
+
+  <ix-checkbox
+    formControlName="preserve_description"
+    [label]="'Preserve disk description' | translate"
+  ></ix-checkbox>
+
+  <ix-checkbox
+    formControlName="force"
+    [label]="'Force' | translate"
+    [tooltip]="helptext.dialogFormFields.force.tooltip | translate"
+  ></ix-checkbox>
+
+  <ix-form-actions>
+    <button mat-button type="button" ixTest="cancel" matDialogClose>
+      {{ 'Cancel' | translate }}
+    </button>
+
+    <button
+      *ixRequiresRoles="[Role.PoolWrite]"
+      mat-button
+      type="submit"
+      color="primary"
+      ixTest="replace"
+    >
+      {{ 'Replace Disk' | translate }}
+    </button>
+  </ix-form-actions>
+</form>

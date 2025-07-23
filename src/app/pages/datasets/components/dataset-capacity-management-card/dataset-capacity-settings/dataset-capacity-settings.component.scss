@@ -1,0 +1,33 @@
+@import 'scss-imports/variables';
+
+.columns {
+  display: flex;
+
+  @media (max-width: $breakpoint-tablet) {
+    display: block;
+  }
+
+  > .column {
+    flex: 1;
+
+    @media (max-width: $breakpoint-tablet) {
+      width: 100%;
+    }
+  }
+}
+
+.refquota-warning-fields,
+.refquota-critical-fields,
+.quota-warning-fields,
+.quota-critical-fields {
+  column-gap: 14px;
+  display: flex;
+
+  > * {
+    flex: 1;
+  }
+
+  .inherit-field {
+    margin-top: 22px;
+  }
+}

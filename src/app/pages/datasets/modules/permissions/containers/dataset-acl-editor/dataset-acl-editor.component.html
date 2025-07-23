@@ -1,0 +1,139 @@
+<mat-card class="card card-square">
+  @if (isLoading) {
+    <mat-spinner
+      class="spinner"
+      [diameter]="40"
+    ></mat-spinner>
+  } @else {
+    <mat-card-header class="header">
+      <mat-card-title class="header-title">
+        {{ 'ACL Editor' | translate }}
+      </mat-card-title>
+      <div class="dataset-path">
+        <label class="header-label">{{ 'Path' | translate }}:</label>
+        <div>{{ datasetPath }}</div>
+      </div>
+
+      <div class="ownership-row" [formGroup]="ownerFormGroup">
+        <div class="control">
+          <label class="header-label">{{ 'Owner' | translate }}:</label>
+          <ix-combobox
+            class="owner-combobox"
+            formControlName="owner"
+            [provider]="userProvider"
+          ></ix-combobox>
+          <ix-checkbox
+            formControlName="applyOwner"
+            [label]="'Apply Owner' | translate"
+            [tooltip]="helptext.apply_user.tooltip | translate"
+          ></ix-checkbox>
+        </div>
+
+        <div class="control">
+          <label class="header-label">{{ 'Owner Group' | translate }}:</label>
+          <ix-combobox
+            class="owner-combobox"
+            formControlName="ownerGroup"
+            [provider]="groupProvider"
+          ></ix-combobox>
+          <ix-checkbox
+            formControlName="applyGroup"
+            [label]="'Apply Group' | translate"
+            [tooltip]="helptext.apply_group.tooltip | translate"
+          ></ix-checkbox>
+        </div>
+      </div>
+    </mat-card-header>
+
+    <div class="content">
+      <div class="columns">
+        <div class="column-left">
+          <ix-acl-editor-list
+            [acl]="acl"
+            [selectedAceIndex]="selectedAceIndex"
+            [acesWithError]="acesWithError"
+            [owner]="ownerFormGroup.controls['owner'].value"
+            [ownerGroup]="ownerFormGroup.controls['ownerGroup'].value"
+          ></ix-acl-editor-list>
+
+          <div class="add-item">
+            <button
+              mat-button
+              class="action"
+              ixTest="add-acl-item"
+              (click)="onAddItemPressed()"
+            >
+              <ix-icon name="add"></ix-icon>
+              {{ 'Add Item' | translate }}
+            </button>
+          </div>
+
+          <div class="controls-container">
+            <div class="controls">
+              <ix-acl-editor-save-controls
+                [canBeSaved]="acesWithError.length === 0 && !!acl.acl.length && ownerFormGroup.valid"
+                [ownerValues]="ownerFormGroup.getRawValue()"
+              ></ix-acl-editor-save-controls>
+              <div class="control-buttons">
+                @if (acl.trivial) {
+                  <a
+                    mat-button
+                    class="action"
+                    ixTest="edit-permissions"
+                    [routerLink]="['/datasets', getDatasetPath(), 'permissions', 'edit']"
+                  >
+                    {{ 'Permissions Editor' | translate }}
+                  </a>
+                } @else {
+                  <button
+                    *ixRequiresRoles="[Role.FilesystemAttrsWrite, Role.FilesystemFullControl]"
+                    mat-button
+                    color="warn"
+                    class="action"
+                    ixTest="strip-acl"
+                    (click)="onStripAclPressed()"
+                  >
+                    {{ 'Strip ACL' | translate }}
+                  </button>
+                }
+              </div>
+
+              <h4 class="presets-label">{{ 'Presets' | translate }}</h4>
+              <div class="control-buttons">
+                <button
+                  mat-button
+                  class="action"
+                  ixTest="use-preset"
+                  (click)="onUsePresetPressed()"
+                >
+                  {{ 'Use Preset' | translate }}
+                </button>
+                <button
+                  *ixRequiresRoles="[Role.FilesystemAttrsWrite]"
+                  mat-button
+                  class="action"
+                  ixTest="save-as-preset"
+                  (click)="onSavePreset()"
+                >
+                  {{ 'Save As Preset' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column-right">
+          @if (acl.acl[selectedAceIndex]; as selectedAce) {
+            @if (isNfsAcl) {
+              <ix-edit-nfs-ace
+                [ace]="selectedAce | cast"
+              ></ix-edit-nfs-ace>
+            } @else {
+              <ix-edit-posix-ace [ace]="selectedAce | cast"></ix-edit-posix-ace>
+            }
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+</mat-card>

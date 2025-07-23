@@ -1,0 +1,11 @@
+<button
+  tabindex="0"
+  mat-icon-button
+  id="mobile-back-button"
+  ixTest="disk-details-back"
+  [attr.aria-label]="'Back' | translate"
+  (click)="close.emit()"
+  (keydown.enter)="close.emit()"
+>
+  <ix-icon name="mdi-chevron-left"></ix-icon>
+</button>

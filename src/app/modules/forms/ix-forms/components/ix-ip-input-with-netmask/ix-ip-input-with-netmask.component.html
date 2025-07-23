@@ -1,0 +1,47 @@
+@if (label() || tooltip()) {
+  <ix-label
+    [label]="label()"
+    [tooltip]="tooltip()"
+    [required]="required()"
+    [ixTestOverride]="controlDirective.name || ''"
+  ></ix-label>
+}
+
+<div class="input-container" [class.disabled]="isDisabled">
+  <input
+    #addressInput
+    type=""
+    matInput
+    [required]="required()"
+    [ixTest]="controlDirective.name"
+    [disabled]="isDisabled"
+    [value]="address"
+    [attr.aria-label]="label()"
+    (input)="onAddressInput(addressInput)"
+    (blur)="onTouched()"
+  />
+  <div class="slash">/</div>
+  <mat-select
+    class="select"
+    ixTest="netmasks"
+    [value]="netmask"
+    (selectionChange)="onNetmaskChange($event)"
+  >
+    @for (option of netmaskOptions; track option.label) {
+      <mat-option [value]="option.value" [ixTest]="['netmask', option.label]">
+        {{ option.label | translate }}
+      </mat-option>
+    }
+  </mat-select>
+</div>
+
+@if (hint()) {
+  <p class="hint">
+    {{ hint() }}
+  </p>
+}
+
+@let control = controlDirective.control;
+@if (control) {
+  <ix-errors [control]="control" [label]="label()"></ix-errors>
+}

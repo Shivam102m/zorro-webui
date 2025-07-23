@@ -1,0 +1,104 @@
+::ng-deep .scheduler-modal .mat-mdc-dialog-container {
+  padding: 0;
+}
+
+:host {
+  display: flex;
+  font-family: var(--mdc-dialog-subhead-font);
+}
+
+.settings-column {
+  margin-bottom: 10px;
+  margin-top: 19px;
+  width: 100%;
+
+  form {
+    padding: 0 14px 24px 20px;
+  }
+
+  .no-spaces-hint {
+    font-size: 85%;
+    margin-bottom: 8px;
+  }
+
+  section {
+    border-bottom: 1px solid var(--lines);
+    margin-bottom: 16px;
+
+    h4 {
+      margin-bottom: 4px;
+    }
+  }
+
+  .input {
+    margin-bottom: 8px;
+    margin-top: 4px;
+
+    &:last-of-type {
+      margin-bottom: 12px;
+    }
+  }
+
+  .months {
+    display: grid;
+    grid-row-gap: 2px;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    margin-bottom: 5px;
+    margin-top: 12px;
+  }
+
+  .weekdays {
+    column-gap: 3px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+    margin-top: 12px;
+
+    .weekend {
+      margin-right: 4px;
+    }
+  }
+
+  .form-actions {
+    text-align: center;
+  }
+
+  .input.days-of-month-input {
+    margin-bottom: 0;
+  }
+
+  .or-condition-explanation {
+    align-items: center;
+    display: flex;
+    margin-bottom: 3px;
+    padding: 0 3px;
+
+    .line {
+      border-top: 1px solid var(--lines);
+      flex-grow: 1;
+    }
+
+    .or-label {
+      background-color: var(--bg2);
+      display: flex;
+      justify-items: center;
+      padding-left: 13px;
+      padding-right: 12px;
+
+      ix-tooltip {
+        margin-left: 4px;
+      }
+    }
+  }
+
+  .days-of-week-header {
+    font-size: x-small;
+  }
+}
+
+.settings-column,
+ix-scheduler-preview-column {
+  max-height: 90vh;
+  overflow: hidden auto;
+}

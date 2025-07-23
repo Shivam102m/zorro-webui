@@ -1,0 +1,63 @@
+<ix-page-header [pageTitle]="'Installed' | translate">
+  <ix-docker-status></ix-docker-status>
+
+  @if (hasUpdates) {
+    <div class="global-update">
+      <button
+        *ixRequiresRoles="requiredRoles"
+        mat-button
+        ixTest="update-all"
+        class="update-all-button"
+        (click)="onBulkUpgrade(true)"
+      >
+        <ix-icon class="has-updates-icon" name="mdi-alert-circle"></ix-icon>
+        <span>
+          {{ 'Update All' | translate }}
+          @if (appsUpdateAvailable) {
+            ({{ appsUpdateAvailable }})
+          }
+        </span>
+      </button>
+    </div>
+  }
+
+  <ix-app-settings-button></ix-app-settings-button>
+  <a
+    mat-button
+    color="primary"
+    ixTest="discover-apps"
+    class="discover-apps-button"
+    [routerLink]="['/apps', 'available']"
+  >{{ 'Discover Apps' | translate }}</a>
+</ix-page-header>
+
+<ix-master-detail-view
+  #masterDetailView="masterDetailViewContext"
+  [showDetails]="masterList.isSelectedAppVisible"
+  [selectedItem]="selectedApp"
+>
+  <ix-installed-apps-list
+    #masterList
+    master
+    [isMobileView]="masterDetailView.isMobileView()"
+    (toggleShowMobileDetails)="masterDetailView.toggleShowMobileDetails($event)"
+  ></ix-installed-apps-list>
+
+  @if (masterDetailView.isMobileView()) {
+    <ng-container detail-header>
+      {{ 'Details for' | translate }}
+      {{ selectedApp?.name }}
+    </ng-container>
+  }
+
+  <ng-container detail>
+    @if (selectedApp) {
+      <ix-app-details-panel
+        [app]="selectedApp"
+        (startApp)="start(selectedApp.name)"
+        (stopApp)="stop(selectedApp.name)"
+        (closeMobileDetails)="masterDetailView.toggleShowMobileDetails(false)"
+      ></ix-app-details-panel>
+    }
+  </ng-container>
+</ix-master-detail-view>

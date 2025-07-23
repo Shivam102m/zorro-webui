@@ -1,0 +1,73 @@
+@import 'mixins/loader';
+@import 'scss-imports/variables';
+@import 'scss-imports/cssvars';
+
+:host {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-items: stretch;
+  position: relative;
+
+  .initial-loader {
+    padding-top: 5px;
+
+    mat-card {
+      @include background-logo-loader(1);
+      margin: 0 6px;
+      min-height: 325px;
+    }
+  }
+
+  &.loading {
+    @include background-logo-loader(1.5);
+
+    &::before {
+      background: var(--bg2);
+      content: '';
+      display: block;
+      height: 100%;
+      left: 0;
+      opacity: 1;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: 20;
+    }
+
+    &::after {
+      z-index: 30;
+    }
+  }
+}
+
+.mat-mdc-card.ghost-card {
+  min-height: 430px;
+}
+
+.mat-button-toggle .ix-icon {
+  font-size: 24px;
+  line-height: normal;
+  margin-bottom: 4px;
+}
+
+.master-container {
+  flex-grow: 1;
+}
+
+cdk-virtual-scroll-viewport {
+  height: 100%;
+  width: 100%;
+
+  @media(max-width: $breakpoint-sm) {
+    height: 100vh;
+
+    &::ng-deep {
+      .cdk-virtual-scroll-content-wrapper {
+        padding-bottom: 100px;
+        width: 100%;
+      }
+    }
+  }
+}

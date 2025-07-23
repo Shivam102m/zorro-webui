@@ -1,0 +1,59 @@
+<button
+  mat-button
+  ixTest="apps-settings"
+  [matMenuTriggerFor]="menu"
+  [ixUiSearch]="searchableElements.elements.settings"
+>
+  {{ 'Configuration' | translate }}
+  <ix-icon name="mdi-menu-down" class="menu-caret"></ix-icon>
+</button>
+
+<mat-menu #menu="matMenu" overlapTrigger="false">
+  <button
+    *ixRequiresRoles="updateDockerRoles"
+    mat-menu-item
+    ixTest="choose-pool"
+    [ixUiSearch]="searchableElements.elements.choosePool"
+    (click)="onChoosePool()"
+  >
+    {{ 'Choose Pool' | translate }}
+  </button>
+
+  @if (!!(dockerStore.selectedPool$ | async)) {
+    <button
+      *ixRequiresRoles="updateDockerRoles"
+      mat-menu-item
+      ixTest="unset-pool"
+      (click)="onUnsetPool()"
+    >
+      {{ 'Unset Pool' | translate }}
+    </button>
+  }
+
+  <button
+    mat-menu-item
+    ixTest="container-images"
+    [routerLink]="['/apps', 'manage-container-images']"
+  >
+    {{ 'Manage Container Images' | translate }}
+  </button>
+
+  <button
+    mat-menu-item
+    ixTest="docker-registries"
+    matTooltipPosition="right"
+    [matTooltip]="!(dockerStore.selectedPool$ | async) ? ('Choose pool first' | translate) : helptext.dockerRegistries.tooltip | translate"
+    [disabled]="!(dockerStore.selectedPool$ | async)"
+    [routerLink]="['/apps', 'docker-registries']"
+  >
+    {{ 'Sign-in to a Docker registry' | translate }}
+  </button>
+
+  <button
+    mat-menu-item
+    ixTest="update-preferred-trains"
+    (click)="manageCatalog()"
+  >
+    {{ 'Settings' | translate }}
+  </button>
+</mat-menu>

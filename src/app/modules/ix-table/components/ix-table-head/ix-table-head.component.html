@@ -1,0 +1,35 @@
+<tr ixTest="header">
+  @for (column of displayedColumns; track column; let idx = $index) {
+    <th
+      [ngClass]="column.cssClass || ''"
+      (click)="onSort(idx)"
+    >
+      <div class="title-container" [ngStyle]="{ cursor: !column.disableSorting ? 'pointer' : 'auto' }">
+        <div class="title">
+          <ng-template
+            ix-header-cell
+            [dataProvider]="dataProvider()"
+            [column]="column"
+          ></ng-template>
+          @if (column.headerTooltip) {
+            <ix-tooltip
+              class="tooltip"
+              [message]="column.headerTooltip | translate"
+              (click)="$event.stopPropagation()">
+            </ix-tooltip>
+          }
+        </div>
+        @if (!column.disableSorting) {
+          <div>
+            @if (dataProvider().sorting.direction === SortDirection.Asc && dataProvider().sorting.active === idx) {
+              <ix-icon name="mdi-arrow-down" class="sort-icon"></ix-icon>
+            }
+            @if (dataProvider().sorting.direction === SortDirection.Desc && dataProvider().sorting.active === idx) {
+              <ix-icon name="mdi-arrow-up" class="sort-icon"></ix-icon>
+            }
+          </div>
+        }
+      </div>
+    </th>
+  }
+</tr>

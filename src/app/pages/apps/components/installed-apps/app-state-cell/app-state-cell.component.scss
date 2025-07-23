@@ -1,0 +1,49 @@
+:host {
+  box-sizing: border-box;
+  display: flex;
+
+  &.has-icon {
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-start;
+
+    ix-icon {
+      display: inline-flex;
+      line-height: 24px;
+    }
+
+    span {
+      color: var(--fg2);
+    }
+  }
+
+  &.has-cell {
+    border: 2px solid transparent;
+    border-radius: 20px;
+    font-weight: bold;
+    gap: 6px;
+    padding: 3px 8px;
+  }
+
+  &.running {
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  &.starting,
+  &.deploying,
+  &.stopping {
+    border-color: var(--yellow);
+    color: var(--yellow);
+
+    mat-spinner::ng-deep circle {
+      stroke: var(--yellow);
+    }
+  }
+
+  &.stopped,
+  &.crashed {
+    border-color: var(--red);
+    color: var(--red);
+  }
+}

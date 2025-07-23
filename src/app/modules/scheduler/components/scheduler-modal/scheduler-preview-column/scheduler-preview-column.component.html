@@ -1,0 +1,35 @@
+<section class="preview-header">
+  <h4 class="crontab-header">
+    {{ 'Schedule Preview' | translate }}
+    <div class="close-wrapper" [attr.aria-label]="'Close scheduler' | translate">
+      <button
+        class="close-btn"
+        mat-icon-button
+        ixTest="close-scheduler"
+        [matDialogClose]
+      >
+        <ix-icon name="cancel"></ix-icon>
+      </button>
+    </div>
+  </h4>
+  <div class="crontab">{{ crontab() }}</div>
+  <div class="crontab-explanation">{{ crontab() | crontabExplanation }}</div>
+</section>
+
+<div class="calendar">
+  <mat-calendar #calendar [dateClass]="getSelectedDateClass"></mat-calendar>
+</div>
+
+<div class="schedule-list">
+  <div class="timezone-message">
+    <strong>{{ 'System Time Zone:' | translate }}</strong> {{ timezone() }}
+  </div>
+
+  @if (cronPreview && !isPastMonth) {
+    <ix-scheduler-date-examples
+      class="schedule-example-section"
+      [cronPreview]="cronPreview"
+      [startDate]="startDate"
+    ></ix-scheduler-date-examples>
+  }
+</div>

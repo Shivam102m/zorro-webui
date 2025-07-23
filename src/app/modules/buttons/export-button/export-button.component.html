@@ -1,0 +1,15 @@
+<div class="relative">
+  @if (isLoading) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
+
+  <button
+    mat-button
+    color="accent"
+    ixTest="export"
+    [disabled]="isLoading"
+    (click)="onExport()"
+  >
+    {{ 'Export As {fileType}' | translate:{ fileType: fileType().toUpperCase()} }}
+  </button>
+</div>

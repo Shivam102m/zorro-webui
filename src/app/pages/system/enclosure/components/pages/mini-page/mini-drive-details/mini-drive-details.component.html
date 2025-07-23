@@ -1,0 +1,69 @@
+<h3>
+  @if (slot().dev) {
+    {{ 'Drive Details {disk}' | translate: { disk: slot().dev } }}
+  } @else {
+    {{ 'Drive Details' | translate }}
+  }
+  <a
+    class="close"
+    mat-icon-button
+    ixTest="close-details"
+    (click)="onClosePressed()"
+  >
+    <ix-icon name="mdi-close"></ix-icon>
+  </a>
+</h3>
+
+<ul class="overview">
+  <li class="item">
+    <div class="label">{{ 'Pool' | translate }}:</div>
+    <div class="value">
+      {{ slot().pool_info?.pool_name || ('Disk not attached to any pools.' | translate) }}
+    </div>
+  </li>
+
+  <li class="item">
+    <div class="label">{{ 'Vdev' | translate }}:</div>
+    <div class="value">
+      {{ slot().pool_info?.vdev_name || ('Unassigned' | translate) }}
+    </div>
+  </li>
+
+  @if (slot().pool_info) {
+    <li class="item">
+      <div class="label">{{ 'Status' | translate }}:</div>
+      <div class="value">
+        {{ slot().pool_info.disk_status | mapValue: enclosureDiskStatusLabels | translate }}
+      </div>
+    </li>
+  }
+
+  @if (slot().model) {
+    <li class="item">
+      <div class="label">{{ 'Model' | translate }}:</div>
+      <div class="value">{{ slot().model }}</div>
+    </li>
+  }
+
+  @if (slot().serial) {
+    <li class="item">
+      <div class="label">{{ 'Serial' | translate }}:</div>
+      <div class="value">{{ slot().serial }}</div>
+    </li>
+  }
+
+  @if (slot().rotationrate) {
+    <li class="item">
+      <div class="label">{{ 'Rotation Rate' | translate }}:</div>
+      <div class="value">
+        {{ '{rate} RPM' | translate: { rate: slot().rotationrate } }}
+      </div>
+    </li>
+  }
+</ul>
+
+@if (slot().supports_identify_light) {
+  <h3>{{ 'Identify Light' | translate }}</h3>
+
+  <ix-identify-light></ix-identify-light>
+}
