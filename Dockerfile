@@ -6,7 +6,7 @@ RUN yarn install --frozen-lockfile
 RUN yarn build:prod:aot
 
 #Download base image debian buster
-FROM debian:buster-slim
+FROM debian:bookworm-slim
 
 # Install packages
 #COPY docker/krb5.conf /etc/krb5.conf
