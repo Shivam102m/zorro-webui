@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
     this.wsStatus.isAuthenticated$.pipe(untilDestroyed(this)).subscribe((isAuthenticated) => {
       this.isAuthenticated = isAuthenticated;
     });
-    this.title.setTitle('Zurra - ' + this.window.location.hostname);
+    this.title.setTitle('Zura - ' + this.window.location.hostname);
 
     this.setFavicon(this.window.matchMedia('(prefers-color-scheme: dark)').matches);
 

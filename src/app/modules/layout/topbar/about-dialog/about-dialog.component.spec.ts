@@ -62,12 +62,12 @@ describe('AboutDialogComponent', () => {
 
   it('should display translated "docs" help text', () => {
     const docsElement = spectator.query('.line-item:nth-of-type(1) .medium-font');
-    expect(docsElement).toHaveText('The Zurra Documentation Site is a collaborative website with helpful guides and information about your new storage system');
+    expect(docsElement).toHaveText('The Zura Documentation Site is a collaborative website with helpful guides and information about your new storage system');
   });
 
   it('should display translated "forums" help text', () => {
     const forumsElement = spectator.query('.line-item:nth-of-type(2) .medium-font');
-    expect(forumsElement).toHaveText('The Zurra Community Forums are the best place to ask questions and interact with fellow Zurra users.');
+    expect(forumsElement).toHaveText('The Zura Community Forums are the best place to ask questions and interact with fellow Zura users.');
   });
 
   it('should display system version correctly', () => {
@@ -77,6 +77,6 @@ describe('AboutDialogComponent', () => {
 
   it('should display product-specific open source text', () => {
     const openSourceElement = spectator.query('#open-source');
-    expect(openSourceElement).toHaveText('Zurra is Free and Open Source software, which is provided as-is with no warranty.');
+    expect(openSourceElement).toHaveText('Zura is Free and Open Source software, which is provided as-is with no warranty.');
   });
 });

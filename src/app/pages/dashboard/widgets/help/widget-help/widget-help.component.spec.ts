@@ -41,7 +41,7 @@ describe('WidgetHelpComponent', () => {
     });
 
     it('renders widget title', () => {
-      expect(spectator.query('.header')).toHaveText('Zurra Help');
+      expect(spectator.query('.header')).toHaveText('Zura Help');
     });
 
     it('checks help lines', async () => {
@@ -76,7 +76,7 @@ describe('WidgetHelpComponent', () => {
     });
 
     it('renders widget title', () => {
-      expect(spectator.query('.header')).toHaveText('Zurra Help');
+      expect(spectator.query('.header')).toHaveText('Zura Help');
     });
 
     it('checks help lines', async () => {
@@ -111,7 +111,7 @@ describe('WidgetHelpComponent', () => {
     });
 
     it('renders widget title', () => {
-      expect(spectator.query('.header')).toHaveText('Zurra Help');
+      expect(spectator.query('.header')).toHaveText('Zura Help');
     });
 
     it('checks help lines', async () => {
@@ -136,7 +136,7 @@ describe('WidgetHelpComponent', () => {
     });
 
     it('checks open source row', () => {
-      expect(spectator.query('.open-source')).toHaveText('Zurra is Free??');
+      expect(spectator.query('.open-source')).toHaveText('Zura is Free??');
     });
 
     it('renders copyright', () => {

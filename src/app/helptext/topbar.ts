@@ -17,7 +17,7 @@ export const helptextTopbar = {
     toggle_collapse: T('Toggle Collapse'),
     tc_connect: T('Connecting to TrueCommand'),
     tc_status: T('Status of TrueCommand'),
-    tnc_status: T('Status of Zurra Connect'),
+    tnc_status: T('Status of Zura Connect'),
     update: T('Update in Progress'),
     reboot_info: T('Reboot Required'),
     pending_network_changes: T('Pending Network Changes'),
@@ -31,7 +31,7 @@ export const helptextTopbar = {
   },
 
   signupDialog: {
-    content: T('This allows your Zurra system to be monitored and administrated by\
+    content: T('This allows your Zura system to be monitored and administrated by\
  TrueCommand. Click <b>SIGNUP</b> to create a new TrueCommand Cloud instance or <b>CONNECT</b> to join an existing instance.'),
   },
 

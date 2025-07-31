@@ -36,7 +36,7 @@ describe('CopyrightLineComponent', () => {
     store$.refreshState();
     spectator.detectChanges();
 
-    expect(spectator.fixture.nativeElement).toHaveText(`Zurra®  © ${buildYear} Zoho Corporation dba  Zurra`);
+    expect(spectator.fixture.nativeElement).toHaveText(`Zura®  © ${buildYear} Zoho Corporation dba  Zura`);
     expect(spectator.fixture.nativeElement).toHaveText('Zoho Corporation');
     expect(spectator.query('a')).toHaveAttribute('href', 'https://www.zoho.com/');
   });
@@ -46,7 +46,7 @@ describe('CopyrightLineComponent', () => {
     store$.refreshState();
     spectator.detectChanges();
 
-    expect(spectator.fixture.nativeElement).toHaveText(`Zurra® Community Edition  © ${buildYear} Zoho Corporation dba  Zurra`);
+    expect(spectator.fixture.nativeElement).toHaveText(`Zura® Community Edition  © ${buildYear} Zoho Corporation dba  Zura`);
     expect(spectator.fixture.nativeElement).toHaveText('Zoho Corporation');
     expect(spectator.query('a')).toHaveAttribute('href', 'https://www.zoho.com/');
   });
@@ -56,7 +56,7 @@ describe('CopyrightLineComponent', () => {
     store$.refreshState();
     spectator.detectChanges();
 
-    expect(spectator.fixture.nativeElement).toHaveText(`Zurra® Enterprise  © ${buildYear} Zoho Corporation dba  Zurra`);
+    expect(spectator.fixture.nativeElement).toHaveText(`Zura® Enterprise  © ${buildYear} Zoho Corporation dba  Zura`);
     expect(spectator.fixture.nativeElement).toHaveText('Zoho Corporation');
     expect(spectator.query('a')).toHaveAttribute('href', 'https://www.zoho.com/');
   });

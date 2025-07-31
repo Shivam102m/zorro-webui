@@ -3,7 +3,7 @@ import { ProductType, productTypeLabels } from 'app/enums/product-type.enum';
 
 export function getCopyrightHtml(productType?: ProductType): string {
   if (productType) {
-    return `Zurra® ${productTypeLabels.get(productType)} <br /> © ${environment.buildYear}`;
+    return `Zura® ${productTypeLabels.get(productType)} <br /> © ${environment.buildYear}`;
   }
-  return `Zurra® <br /> © ${environment.buildYear}`;
+  return `Zura® <br /> © ${environment.buildYear}`;
 }
